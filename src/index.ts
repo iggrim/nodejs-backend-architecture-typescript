@@ -3,7 +3,7 @@ import path from 'path';
 import { create } from 'express-handlebars';
 
 const PORT = process.env.PORT || 3000;
-const __dirname = path.resolve();
+//const __dirname = path.resolve();
 
 const hbs = create({ 
   defaultLayout: 'main',
@@ -16,15 +16,16 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', "./views");
 
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-  res.render('index')
+  res.render('index');
 })
 
 app.get('/about', (req, res) => {
-  res.render('about')
+  res.render('about');
 })
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`)
+  console.log(`Server is running on port ${PORT}`);
 })

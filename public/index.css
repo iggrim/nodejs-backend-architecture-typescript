@@ -1,0 +1,11 @@
+nav {
+ background-color: #6e70ee;
+}
+
+.nav-wrapper {
+  padding: 0 2rem;
+}
+
+nav .brand-logo {
+  padding-left: 10px;
+}
