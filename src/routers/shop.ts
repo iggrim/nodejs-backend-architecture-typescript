@@ -9,11 +9,17 @@ shopRouter.get('/', (req, res) => {
   })  
 })
 
-shopRouter.get('/add', (req, res) => {
+shopRouter.get('/add-product', (req, res) => {
   res.render('add-product', {
     title_1: 'Добавить товар',
     isAdd: true
   })
+})
+
+shopRouter.post('/add-product', (req, res) => {
+  console.log('req.body ', req.body)
+
+  res.redirect('/products')
 })
 
 shopRouter.get('/products', (req, res) => {
