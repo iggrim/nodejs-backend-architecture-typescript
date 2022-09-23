@@ -23,6 +23,7 @@ export class App {
     this.app.set('views', path.join(__dirname, "views-handlebars"));
 
     this.app.use(express.static(path.join(__dirname, 'public')));
+    this.app.use(express.urlencoded({extended: true}))
   }
 
 
