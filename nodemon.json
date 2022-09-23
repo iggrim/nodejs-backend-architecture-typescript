@@ -1,0 +1,11 @@
+{
+	"watch": [
+		"src"
+	],
+	"ext": "ts,json",
+	"ignore": [
+		"src/**/*.spec.ts"
+	],
+	
+	"exec": "cp -r ./src/views-handlebars dist \n cp -r ./src/public dist \n ts-node --files ./src/main.ts"
+}

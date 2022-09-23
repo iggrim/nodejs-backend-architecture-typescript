@@ -3,16 +3,24 @@
     <a href="#" class="brand-logo">Панель администратора магазина</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-      <li class="active">
-        <a href="/">Главная</a>
-      </li>
+      {{#if isHome}}
+        <li class="active"><a href="/">Главная</a></li>
+      {{else}}
+        <li><a href="/">Главная</a></li>
+      {{/if}}
 
-      <li>
-        <a href="/product">Товары</a>
-      </li>
-      <li>
-        <a href="/addproduct">Добавить товар</a>
-      </li>
+      {{#if isProducts}}
+        <li class="active"><a href="/products">Товары</a></li>
+      {{else}}
+        <li><a href="/products">Товары</a></li>
+      {{/if}}
+
+      {{#if isAdd}}
+        <li class="active"><a href="/add-product">Добавить товар</a></li>
+      {{else}}
+        <li><a href="/add-product">Добавить товар</a></li>
+      {{/if}}
+      
     </ul>
   </div>
 </nav>
