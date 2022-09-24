@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { BaseController } from '../common/base.controller';
+import { ProductsService } from '../products/products.service'
+
 
 
 export class ShopController extends BaseController {
@@ -37,7 +39,10 @@ addGet(req: Request, res: Response, next: NextFunction) {
 
 addPost(req: Request, res: Response, next: NextFunction) {
   console.log('req.body ', req.body)
-
+  
+  const productsService = new ProductsService()
+  productsService.createProduct(req.body);
+  
   res.redirect('/products')
 }
 
