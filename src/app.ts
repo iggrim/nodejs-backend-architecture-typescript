@@ -1,6 +1,6 @@
 import express, {Express} from 'express'
 import { Server } from 'http';
-import { shopRouter } from './routers/shop'
+import { ShopController } from './shop/shop.controller'
 import * as path from "path";
 import { create, ExpressHandlebars } from 'express-handlebars';
 
@@ -8,15 +8,16 @@ export class App {
   app: Express;
   port: Number;
   hbs: ExpressHandlebars;
-  
+  shopController: ShopController;
 
-  constructor() {
+  constructor(shopController: ShopController) {
     this.app = express();
     this.port = 3000;
+    this.shopController = shopController;
     this.hbs = create({ 
       defaultLayout: 'main',
       extname: 'hbs' 
-  });
+    });
 
     this.app.engine('hbs', this.hbs.engine);
     this.app.set('view engine', 'hbs');
@@ -28,7 +29,7 @@ export class App {
 
 
   useRotes() {
-    this.app.use('/', shopRouter)
+    this.app.use('/', this.shopController.router); // .router - это геттер в base.controller.ts
   }
 
   public async init() {
