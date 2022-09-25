@@ -6,10 +6,10 @@ import { uuid } from 'uuidv4';
 export class ProductsService implements IProductsService{
   async createProduct({title, price, img }: Product): Promise<Product>{
     const id = uuid();
-    const newProduct = new Product(id, title, price, img);
+    const newProduct = new Product(title, price, img, id);
     
     const newRepository = new ProductsRepository(newProduct);
-    newRepository.save();
+    await newRepository.save();
 
     return newProduct;
   }

@@ -3,11 +3,11 @@
 export class Product {
     
   constructor(
-    private  _id: string,  
-    private  _title: string, 
-    private  _price: number, 
-    private  _img: string
-
+  
+    private readonly _title: string, 
+    private readonly _price: number, 
+    private readonly _img: string,
+    private readonly _id: string, 
     ) {}
 
     public get img(): string {

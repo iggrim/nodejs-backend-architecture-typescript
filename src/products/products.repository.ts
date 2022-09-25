@@ -11,18 +11,38 @@ export class ProductsRepository implements IProductsRepository {
 		this.product = product;
 	}
 
-	toJson(){
-
+	toJson({title, price, img, id}:Product){
+    return {
+      title, price, img, id
+    }
 	}
 
 	async save(): Promise<void> {
-		const products = await this.getAll();
-		console.log('-product ', this.product)
-		console.log('--products ', products)
+		const products = await ProductsRepository.getAll();
+    const item = this.toJson(this.product);
+		//console.log('-product ', item);
+		//console.log('--products ', products);
+    products.push( item );
+    
+    return new Promise((resolve, reject) => {
+      fs.writeFile(
+        path.join(__dirname, '..', 'data', 'products.json'),
+        JSON.stringify(products),
 
+        (err) => {
+          if (err) {
+            //console.log('ошибка ', err);
+            reject(err)
+          } else {
+            //console.log('Все ОК.')
+            resolve()
+          }
+        }
+      )
+    })
 	}
 
-	async getAll() : Promise<Product>{
+	static getAll() : Promise<(object)[]>{
 
 		return new Promise((resolve, reject) => {
       fs.readFile(

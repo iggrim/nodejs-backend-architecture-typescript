@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { BaseController } from '../common/base.controller';
-import { ProductsService } from '../products/products.service'
+import { ProductsService } from '../products/products.service';
+import { ProductsRepository} from '../products/products.repository';
 
 
 
@@ -46,10 +47,14 @@ addPost(req: Request, res: Response, next: NextFunction) {
   res.redirect('/products')
 }
 
-products(req: Request, res: Response, next: NextFunction) {
+async products(req: Request, res: Response) {
+  const products = await ProductsRepository.getAll();
+  console.log('--products ', products);
+
   res.render('products', {
     title_1: 'Товары',
-    isProducts: true
+    isProducts: true,
+    products
   })
 }
 

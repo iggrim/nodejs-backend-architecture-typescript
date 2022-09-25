@@ -1,5 +1,5 @@
 import { Product } from './product.entity';
 
 export interface IProductsService {
-  createProduct: (product: Product) => Promise<Product | null>,
+  createProduct: (product: Product) => Promise<Product>,
 }
