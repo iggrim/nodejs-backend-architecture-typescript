@@ -5,11 +5,11 @@ import { IProductsRepository } from './products.repository.interface';
 
 
 export class ProductsRepository implements IProductsRepository {
-	product: Product;
+	// product: Product;
 	
-	constructor(product: Product){
-		this.product = product;
-	}
+	// constructor(product: Product){
+	// 	this.product = product;
+	// }
 
 	toJson({title, price, img, id}:Product){
     return {
@@ -17,9 +17,9 @@ export class ProductsRepository implements IProductsRepository {
     }
 	}
 
-	async save(): Promise<void> {
+	async save(product: Product): Promise<void> {
 		const products = await ProductsRepository.getAll();
-    const item = this.toJson(this.product);
+    const item = this.toJson(product);
 		//console.log('-product ', item);
 		//console.log('--products ', products);
     products.push( item );

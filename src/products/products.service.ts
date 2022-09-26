@@ -8,8 +8,8 @@ export class ProductsService implements IProductsService{
     const id = uuid();
     const newProduct = new Product(title, price, img, id);
     
-    const newRepository = new ProductsRepository(newProduct);
-    await newRepository.save();
+    const newRepository = new ProductsRepository();
+    await newRepository.save(newProduct);
 
     return newProduct;
   }
