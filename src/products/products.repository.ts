@@ -43,7 +43,8 @@ export class ProductsRepository implements IProductsRepository {
 	}
 
 	static getAll() : Promise<(object)[]>{
-
+    console.log('__dirname: ', __dirname);
+    
 		return new Promise((resolve, reject) => {
       fs.readFile(
         path.join(__dirname, '..', 'data', 'products.json'),

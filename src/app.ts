@@ -1,19 +1,27 @@
 import express, {Express} from 'express'
+import { inject, injectable } from 'inversify';
+import 'reflect-metadata';
+import { TYPES } from './types';
 import { Server } from 'http';
 import { ShopController } from './shop/shop.controller'
 import * as path from "path";
 import { create, ExpressHandlebars } from 'express-handlebars';
+import 'reflect-metadata';
 
+
+@injectable()
 export class App {
   app: Express;
   port: Number;
   hbs: ExpressHandlebars;
-  shopController: ShopController;
+  //shopController: ShopController;
 
-  constructor(shopController: ShopController) {
+  constructor(
+    @inject(TYPES.ShopController) private shopController: ShopController
+  ) {
     this.app = express();
     this.port = 3000;
-    this.shopController = shopController;
+    //this.shopController = shopController;
     this.hbs = create({ 
       defaultLayout: 'main',
       extname: 'hbs' 

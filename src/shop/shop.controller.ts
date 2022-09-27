@@ -1,11 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
+import { inject, injectable } from 'inversify';
 import { BaseController } from '../common/base.controller';
+import { IShopController } from './shop.controller.interface';
 import { ProductsService } from '../products/products.service';
 import { ProductsRepository} from '../products/products.repository';
+import 'reflect-metadata';
 
 
-
-export class ShopController extends BaseController {
+@injectable()
+export class ShopController extends BaseController implements IShopController {
   /**
   Напоминание.
   В конструкторе ключевое слово super() используется как функция, вызывающая 
@@ -39,7 +42,7 @@ addGet(req: Request, res: Response, next: NextFunction) {
 }
 
 addPost(req: Request, res: Response, next: NextFunction) {
-  console.log('req.body ', req.body)
+  //console.log('req.body ', req.body)
   
   const productsService = new ProductsService()
   productsService.createProduct(req.body);
@@ -47,7 +50,7 @@ addPost(req: Request, res: Response, next: NextFunction) {
   res.redirect('/products')
 }
 
-async products(req: Request, res: Response) {
+async products(req: Request, res: Response, next: NextFunction) {
   const products = await ProductsRepository.getAll();
   console.log('--products ', products);
 
