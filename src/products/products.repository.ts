@@ -1,9 +1,11 @@
+import { injectable } from 'inversify';
 import fs from 'fs';
 import path from 'path';
 import { Product } from './product.entity';
 import { IProductsRepository } from './products.repository.interface';
+import 'reflect-metadata';
 
-
+@injectable()
 export class ProductsRepository implements IProductsRepository {
 	// product: Product;
 	
@@ -18,7 +20,7 @@ export class ProductsRepository implements IProductsRepository {
 	}
 
 	async save(product: Product): Promise<void> {
-		const products = await new ProductsRepository().getAll();
+		const products = await this.getAll();
     
     const item = this.toJson(product);
 		//console.log('-product ', item);
