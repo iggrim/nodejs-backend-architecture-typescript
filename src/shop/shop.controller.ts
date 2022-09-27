@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
+import { TYPES } from '../types';
 import { BaseController } from '../common/base.controller';
 import { IShopController } from './shop.controller.interface';
 import { ProductsService } from '../products/products.service';
@@ -17,7 +18,8 @@ export class ShopController extends BaseController implements IShopController {
   для вызова функций родительского объекта.
    */
 	constructor(
-
+    @inject(TYPES.ProductsService) private productsService: ProductsService,
+    @inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository
   ) {
 		super();
 		this.bindRoutes([
@@ -46,14 +48,15 @@ addGet(req: Request, res: Response, next: NextFunction) {
 addPost(req: Request, res: Response, next: NextFunction) {
   //console.log('req.body ', req.body)
   
-  const productsService = new ProductsService()
-  productsService.createProduct(req.body);
-  
+  //const productsService = new ProductsService()
+  this.productsService.createProduct(req.body);
+    
   res.redirect('/products')
 }
 
 async products(req: Request, res: Response, next: NextFunction) {
-  const products = await new ProductsRepository().getAll();
+  //const products = await new ProductsRepository().getAll();
+  const products = await this.productsRepository.getAll();
   console.log('--products ', products);
 
   res.render('products', {
