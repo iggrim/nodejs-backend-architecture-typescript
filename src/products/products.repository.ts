@@ -18,7 +18,8 @@ export class ProductsRepository implements IProductsRepository {
 	}
 
 	async save(product: Product): Promise<void> {
-		const products = await ProductsRepository.getAll();
+		const products = await new ProductsRepository().getAll();
+    
     const item = this.toJson(product);
 		//console.log('-product ', item);
 		//console.log('--products ', products);
@@ -42,7 +43,7 @@ export class ProductsRepository implements IProductsRepository {
     })
 	}
 
-	static getAll() : Promise<(object)[]>{
+	async getAll() : Promise<(object)[]>{
     console.log('__dirname: ', __dirname);
     
 		return new Promise((resolve, reject) => {

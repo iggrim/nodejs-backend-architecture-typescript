@@ -16,7 +16,9 @@ export class ShopController extends BaseController implements IShopController {
   слову this в теле конструктора. Ключевое слово super также может быть использовано 
   для вызова функций родительского объекта.
    */
-	constructor() {
+	constructor(
+
+  ) {
 		super();
 		this.bindRoutes([
 			{ path: '/', method: 'get', func: this.home },
@@ -51,7 +53,7 @@ addPost(req: Request, res: Response, next: NextFunction) {
 }
 
 async products(req: Request, res: Response, next: NextFunction) {
-  const products = await ProductsRepository.getAll();
+  const products = await new ProductsRepository().getAll();
   console.log('--products ', products);
 
   res.render('products', {
