@@ -26,7 +26,8 @@ export class ShopController extends BaseController implements IShopController {
 			{ path: '/', method: 'get', func: this.home },
 			{ path: '/add-product', method: 'get', func: this.addGet },
 			{ path: '/add-product', method: 'post', func: this.addPost },
-			{ path: '/products', method: 'get', func: this.products }
+			{ path: '/products', method: 'get', func: this.products },
+      { path: '/product/:id', method: 'get', func: this.product },
 		])
 	}
 
@@ -57,7 +58,7 @@ addPost(req: Request, res: Response, next: NextFunction) {
 async products(req: Request, res: Response, next: NextFunction) {
   //const products = await new ProductsRepository().getAll();
   const products = await this.productsRepository.getAll();
-  console.log('--products ', products);
+  //console.log('--products ', products);
 
   res.render('products', {
     title_1: 'Товары',
@@ -65,5 +66,18 @@ async products(req: Request, res: Response, next: NextFunction) {
     products
   })
 }
+
+async product(req: Request, res: Response, next: NextFunction) {
+  //console.log('--req.params.id ', req.params.id);
+  
+  const product = await this.productsRepository.getById(req.params.id);
+    
+  res.render('product', {
+    layout: 'empty',
+    title_1: product ?`Товар ${product.title}`: "Товар не найден",
+    product
+  })
+}
+
 
 }

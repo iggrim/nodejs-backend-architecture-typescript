@@ -45,7 +45,7 @@ export class ProductsRepository implements IProductsRepository {
     })
 	}
 
-	async getAll() : Promise<(object)[]>{
+	async getAll() : Promise<({img: string, price: number, title: string, id: string})[]>{
     console.log('__dirname: ', __dirname);
     
 		return new Promise((resolve, reject) => {
@@ -61,6 +61,16 @@ export class ProductsRepository implements IProductsRepository {
         }
       )
     })
+  }
+
+  async getById(id: string): Promise<{img: string, price: number, title: string, id: string} | undefined> {
+
+    const products = await this.getAll();
+    console.log('-products ', products)
+    console.log('-id ', id)
+
+    return products.find(p => p.id === id);
+     
   }
 
 }
