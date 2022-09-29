@@ -1,20 +1,22 @@
 <h1>Все товары</h1>
 
 <h6>Выбор валюты</h6>
-  <form action="#">
+  <form action = '#' name = "intlForm">
     <p>
       <label>
-        <input name="group1" type="radio" checked />
+        <input name="group1" type="radio" value = "RUB" checked />
         <span>Ru</span>
       </label>
     </p>
     <p>
       <label>
-        <input name="group1" type="radio" />
-        <span>USA</span>
+        <input name="group1" type="radio" value = "USD"/>
+        <span>US</span>
       </label>
     </p>
   </form>
+
+
         
 
 {{#if products.length}}
