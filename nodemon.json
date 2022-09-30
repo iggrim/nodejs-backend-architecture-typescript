@@ -8,5 +8,5 @@
 		"data/*"
 	],
 	
-	"exec": "cp -r ./src/views-handlebars dist \n cp -r ./src/public dist \n ts-node --files ./src/main.ts"
+	"exec": "ts-node --files ./src/main.ts"
 }

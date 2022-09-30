@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import path from 'path';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { BaseController } from '../common/base.controller';
@@ -23,11 +24,11 @@ export class ShopController extends BaseController implements IShopController {
   ) {
 		super();
 		this.bindRoutes([
-			{ path: '/', method: 'get', func: this.home },
+			{ path: '/', method: 'get', func: this.home },     
 			{ path: '/add-product', method: 'get', func: this.addGet },
 			{ path: '/add-product', method: 'post', func: this.addPost },
 			{ path: '/products', method: 'get', func: this.products },
-      { path: '/product/:id', method: 'get', func: this.product },
+      { path: '/products/:id', method: 'get', func: this.product_1 },   
 		])
 	}
 
@@ -67,8 +68,8 @@ async products(req: Request, res: Response, next: NextFunction) {
   })
 }
 
-async product(req: Request, res: Response, next: NextFunction) {
-  //console.log('--req.params.id ', req.params.id);
+async product_1(req: Request, res: Response, next: NextFunction) {
+  console.log('--req.params.id ', req.params.id);
   
   const product = await this.productsRepository.getById(req.params.id);
     
@@ -77,6 +78,8 @@ async product(req: Request, res: Response, next: NextFunction) {
     title_1: product ?`Товар ${product.title}`: "Товар не найден",
     product
   })
+
+  //res.sendFile(path.join(__dirname,  'test.html')) //  попрежнему можно
 }
 
 
