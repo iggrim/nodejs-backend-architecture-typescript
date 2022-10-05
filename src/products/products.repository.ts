@@ -19,6 +19,27 @@ export class ProductsRepository implements IProductsRepository {
     }
 	}
 
+  async update(product: Product): Promise<void> {
+    const products = await this.getAll();
+
+    const idx = products.findIndex(c => c.id === product.id);
+    products[idx] = product;
+
+    return new Promise((resolve, reject) => {
+      fs.writeFile(
+        path.join(__dirname, '..', 'data', 'products.json'),
+        JSON.stringify(products),
+        (err) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve()
+          }       
+        }      
+      )    
+    }) 
+  }
+
 	async save(product: Product): Promise<void> {
 		const products = await this.getAll();
     

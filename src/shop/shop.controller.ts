@@ -28,59 +28,78 @@ export class ShopController extends BaseController implements IShopController {
 			{ path: '/add-product', method: 'get', func: this.addGet },
 			{ path: '/add-product', method: 'post', func: this.addPost },
 			{ path: '/products', method: 'get', func: this.products },
-      { path: '/products/:id', method: 'get', func: this.product_1 },   
+      { path: '/products/:id', method: 'get', func: this.productInfo }, 
+      { path: '/products/:id/edit', method: 'get', func: this.showEditProduct},
+      { path: '/product/save-edit', method: 'post', func: this.editProductPost} 
 		])
 	}
 
 
-home(req: Request, res: Response, next: NextFunction) {
-  res.render('index', {
-    title_1: 'Главная страница',
-    isHome: true
-  })  
-}
+  home(req: Request, res: Response, next: NextFunction) {
+    res.render('index', {
+      title_1: 'Главная страница',
+      isHome: true
+    })  
+  }
 
-addGet(req: Request, res: Response, next: NextFunction) {
-  res.render('add-product', {
-    title_1: 'Добавить товар',
-    isAdd: true
-  })
-}
+  addGet(req: Request, res: Response, next: NextFunction) {
+    res.render('add-product', {
+      title_1: 'Добавить товар',
+      isAdd: true
+    })
+  }
 
-addPost(req: Request, res: Response, next: NextFunction) {
-  //console.log('req.body ', req.body)
-  
-  //const productsService = new ProductsService()
-  this.productsService.createProduct(req.body);
+  addPost(req: Request, res: Response, next: NextFunction) {
+    //console.log('req.body ', req.body)
     
-  res.redirect('/products')
-}
+    //const productsService = new ProductsService()
+    this.productsService.createProduct(req.body);
+      
+    res.redirect('/products')
+  }
 
-async products(req: Request, res: Response, next: NextFunction) {
-  //const products = await new ProductsRepository().getAll();
-  const products = await this.productsRepository.getAll();
-  //console.log('--products ', products);
+  async products(req: Request, res: Response, next: NextFunction) {
+    //const products = await new ProductsRepository().getAll();
+    const products = await this.productsRepository.getAll();
+    //console.log('--products ', products);
 
-  res.render('products', {
-    title_1: 'Товары',
-    isProducts: true,
-    products
-  })
-}
+    res.render('products', {
+      title_1: 'Товары',
+      isProducts: true,
+      products
+    })
+  }
 
-async product_1(req: Request, res: Response, next: NextFunction) {
-  console.log('--req.params.id ', req.params.id);
-  
-  const product = await this.productsRepository.getById(req.params.id);
+  async showEditProduct(req: Request, res: Response, next: NextFunction){
+    if (!req.query.allow) {
+      res.redirect('/');
+    }
+
+    const product = await this.productsRepository.getById(req.params.id);
+
+    res.render('product-edit', {
+      title_1: product ?`Редактировать ${product.title}` : "Товар не найден",
+      product
+    })
+  }
+
+  async editProductPost(req: Request, res: Response, next: NextFunction){
+    await this.productsRepository.update(req.body);
+    res.redirect('/products');
+  }
+
+  async productInfo(req: Request, res: Response, next: NextFunction) {
+    console.log('--req.params.id ', req.params.id);
     
-  res.render('product', {
-    layout: 'empty',
-    title_1: product ?`Товар ${product.title}`: "Товар не найден",
-    product
-  })
+    const product = await this.productsRepository.getById(req.params.id);
+      
+    res.render('product', {
+      layout: 'empty',
+      title_1: product ?`Товар ${product.title}`: "Товар не найден", // это попадает в head.hbs
+      product
+    })
 
-  //res.sendFile(path.join(__dirname,  'test.html')) //  попрежнему можно
-}
-
+    //res.sendFile(path.join(__dirname,  'test.html')) //  попрежнему можно
+  }
 
 }
