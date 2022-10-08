@@ -7,7 +7,7 @@ function formatCurrency (currency) {
       style: 'currency'
     })
     const num = parseInt((node.textContent).replace( /\s/g, ""))
-    //console.log('num', num)
+    
     node.textContent = nf.format(num)
   })
 }
@@ -22,5 +22,5 @@ function onclick(e){
 
 //console.log('intlForm.group1.length ', intlForm.group1.length)
 for (var i = 0; i < intlForm.group1.length; i++) {
-  intlForm.group1[i].addEventListener("click", onclick);
+  intlForm.group1[i].addEventListener("click", onclick); // выбор по name = "intlForm"
 }

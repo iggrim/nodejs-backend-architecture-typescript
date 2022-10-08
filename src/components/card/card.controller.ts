@@ -49,7 +49,7 @@ export class CardController extends BaseController implements ICardController {
     res.render('products-card', {
       title_1: 'Корзина',
       isCarad: true,
-      card
+      card,
     })
   }
 
