@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-export interface IShopController {
+export interface IProductsController {
 	home: (req: Request, res: Response, next: NextFunction) => void;
 	addGet: (req: Request, res: Response, next: NextFunction) => void;
 	addPost: (req: Request, res: Response, next: NextFunction) => void;

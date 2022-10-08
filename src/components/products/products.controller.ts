@@ -1,16 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { inject, injectable } from 'inversify';
-import { TYPES } from '../types';
+import { TYPES } from '../../types';
 import { BaseController } from '../common/base.controller';
-import { IShopController } from './shop.controller.interface';
-import { ProductsService } from '../products/products.service';
-import { ProductsRepository} from '../products/products.repository';
+import { IProductsController } from './products.controller.interface';
+import { ProductsService } from './products.service';
+import { ProductsRepository} from './products.repository';
+
 import 'reflect-metadata';
 
 
 @injectable()
-export class ShopController extends BaseController implements IShopController {
+export class ProductsController extends BaseController implements IProductsController {
   /**
   Напоминание.
   В конструкторе ключевое слово super() используется как функция, вызывающая 
@@ -20,7 +21,8 @@ export class ShopController extends BaseController implements IShopController {
    */
 	constructor(
     @inject(TYPES.ProductsService) private productsService: ProductsService,
-    @inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository
+    @inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository,
+    
   ) {
 		super();
 		this.bindRoutes([
@@ -30,7 +32,8 @@ export class ShopController extends BaseController implements IShopController {
 			{ path: '/products', method: 'get', func: this.products },
       { path: '/products/:id', method: 'get', func: this.productInfo }, 
       { path: '/products/:id/edit', method: 'get', func: this.showEditProduct},
-      { path: '/product/save-edit', method: 'post', func: this.editProductPost} 
+      { path: '/product/save-edit', method: 'post', func: this.editProductPost},
+      
 		])
 	}
 
@@ -72,7 +75,7 @@ export class ShopController extends BaseController implements IShopController {
 
   async showEditProduct(req: Request, res: Response, next: NextFunction){
     if (!req.query.allow) {
-      res.redirect('/');
+      return res.redirect('/'); // для прерывания функции - return
     }
 
     const product = await this.productsRepository.getById(req.params.id);
@@ -89,7 +92,7 @@ export class ShopController extends BaseController implements IShopController {
   }
 
   async productInfo(req: Request, res: Response, next: NextFunction) {
-    console.log('--req.params.id ', req.params.id);
+    //console.log('--req.params.id ', req.params.id);
     
     const product = await this.productsRepository.getById(req.params.id);
       
@@ -98,8 +101,8 @@ export class ShopController extends BaseController implements IShopController {
       title_1: product ?`Товар ${product.title}`: "Товар не найден", // это попадает в head.hbs
       product
     })
-
     //res.sendFile(path.join(__dirname,  'test.html')) //  попрежнему можно
   }
+
 
 }

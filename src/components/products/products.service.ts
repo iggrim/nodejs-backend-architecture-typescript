@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { TYPES } from '../types';
+import { TYPES } from '../../types';
 import { IProductsService } from "./products.service.interface";
 import { Product } from "./product.entity";
 import { ProductsRepository} from './products.repository'

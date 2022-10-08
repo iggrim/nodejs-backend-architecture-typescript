@@ -1,6 +1,8 @@
 export const TYPES = {
 	Application: Symbol.for('Application'),
-	ShopController: Symbol.for('ShopController'),
+	ProductsController: Symbol.for('ProductsController'),
 	ProductsService: Symbol.for('ProductsService'),
 	ProductsRepository: Symbol.for('ProductsRepository'),
+	CardController: Symbol.for('CardController'),
+	CardRepository: Symbol.for('CardRepository'),
 };

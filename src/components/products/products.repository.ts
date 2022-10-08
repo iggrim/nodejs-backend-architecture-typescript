@@ -27,7 +27,7 @@ export class ProductsRepository implements IProductsRepository {
 
     return new Promise((resolve, reject) => {
       fs.writeFile(
-        path.join(__dirname, '..', 'data', 'products.json'),
+        path.join(__dirname, '../../', 'data', 'products.json'),
         JSON.stringify(products),
         (err) => {
           if (err) {
@@ -50,7 +50,7 @@ export class ProductsRepository implements IProductsRepository {
     
     return new Promise((resolve, reject) => {
       fs.writeFile(
-        path.join(__dirname, '..', 'data', 'products.json'),
+        path.join(__dirname, '../../', 'data', 'products.json'),
         JSON.stringify(products),
 
         (err) => {
@@ -71,7 +71,7 @@ export class ProductsRepository implements IProductsRepository {
     
 		return new Promise((resolve, reject) => {
       fs.readFile(
-        path.join(__dirname, '..', 'data', 'products.json'),
+        path.join(__dirname, '../../', 'data', 'products.json'),
         'utf-8',
         (err, content) => {
           if (err) {

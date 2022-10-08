@@ -3,7 +3,8 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from './types';
 import { Server } from 'http';
-import { ShopController } from './shop/shop.controller'
+import { ProductsController } from './components/products/products.controller'
+import { CardController } from './components/card/card.controller'
 import * as path from "path";
 import { create, ExpressHandlebars } from 'express-handlebars';
 //import { engine } from 'express-handlebars';
@@ -18,7 +19,8 @@ export class App {
 
 
   constructor(
-    @inject(TYPES.ShopController) private shopController: ShopController
+    @inject(TYPES.ProductsController) private productsController: ProductsController,
+    @inject(TYPES.CardController) private cardController: CardController
   ) {
     this.app = express();
     this.port = 3000;
@@ -38,7 +40,8 @@ export class App {
 
 
   useRotes() {
-    this.app.use('/', this.shopController.router); // .router - это геттер в base.controller.ts 
+    this.app.use('/', this.productsController.router); // .router - это геттер в base.controller.ts 
+    this.app.use('/', this.cardController.router); // .router - это геттер в base.controller.ts 
   }
 
   public async init() {
