@@ -4,6 +4,7 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { BaseController } from '../common/base.controller';
 import { IProductsController } from './products.controller.interface';
+import { ProductDto } from './product.dto';
 import { ProductsService } from './products.service';
 import { ProductsRepository} from './products.repository';
 
@@ -52,10 +53,12 @@ export class ProductsController extends BaseController implements IProductsContr
     })
   }
 
-  addPost(req: Request, res: Response, next: NextFunction) {
+  addPost(req: Request<{}, {}, ProductDto>, res: Response, next: NextFunction) {
     //console.log('req.body ', req.body)
     
     //const productsService = new ProductsService()
+    
+    // req.body - объект с телом запроса Post
     this.productsService.createProduct(req.body);
       
     res.redirect('/products')
@@ -86,7 +89,7 @@ export class ProductsController extends BaseController implements IProductsContr
     })
   }
 
-  async editProductPost(req: Request, res: Response, next: NextFunction){
+  async editProductPost(req: Request<{}, {}, ProductDto>, res: Response, next: NextFunction){
     await this.productsRepository.update(req.body);
     res.redirect('/products');
   }

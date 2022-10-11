@@ -6,6 +6,7 @@ import { BaseController } from '../common/base.controller';
 import { ICardController } from './card.controller.interface';
 import { ProductsRepository} from '../products/products.repository';
 import { CardRepository } from './card.repository';
+import { CardService } from './card.service';
 import 'reflect-metadata';
 
 
@@ -20,12 +21,14 @@ export class CardController extends BaseController implements ICardController {
    */
 	constructor(
     @inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository,
+    @inject(TYPES.CardService) private cardService: CardService,
     @inject(TYPES.CardRepository) private cardRepository: CardRepository,
   ) {
 		super();
 		this.bindRoutes([
       { path: '/products-card', method: 'get', func: this.getCard},
-      { path: '/products-card/add', method: 'post', func: this.addToCard} 
+      { path: '/products-card/add', method: 'post', func: this.addToCard}, 
+      { path: '/products-card/remove/:id', method: 'delete', func: this.deleteFromCard} 
 		])
 	}
 
@@ -33,13 +36,15 @@ export class CardController extends BaseController implements ICardController {
     
     const product = await this.productsRepository.getById(req.body.id);
     
-    console.log('---product ', product);
+    //console.log('---product ', product);
 
     if(product)
-      await this.cardRepository.add(product);  
+      await this.cardService.createCardtItem(product)
+      //await this.cardRepository.add(product);  
 
     res.redirect('/products-card')
   }
+  
 
   async getCard(req: Request, res: Response, next: NextFunction){
     const card = await this.cardRepository.fetchItems()
@@ -51,6 +56,11 @@ export class CardController extends BaseController implements ICardController {
       isCarad: true,
       card,
     })
+  }
+
+  async deleteFromCard(req: Request, res: Response, next: NextFunction){
+    const card = await this.cardRepository.remove(req.params.id)
+    res.status(200).json(card)
   }
 
 

@@ -1,5 +1,6 @@
 <h1>{{title_1}}</h1>
 
+<div id="card">
 {{#if card.products.length}}
 
   <table>
@@ -17,7 +18,7 @@
         <td>{{title}}</td>
         <td>{{count}}</td>
         <td>
-          <button class="btn btm-small">Удалить</button>
+          <button class="btn btm-small js-remove" data-id="{{id}}">Удалить</button>
         </td>
       </tr>
       {{/each}}
@@ -28,3 +29,5 @@
 {{else}}
   <p>Корзина пуста</p>
 {{/if}}
+
+</div>

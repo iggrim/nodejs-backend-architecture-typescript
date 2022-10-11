@@ -11,6 +11,8 @@ import { CardRepository } from './components/card/card.repository';
 import { ICardRepository } from './components/card/card.repository.interface';
 import { ICardController } from './components/card/card.controller.interface';
 import { CardController } from './components/card/card.controller';
+import { CardService } from './components/card/card.service';
+import { ICardService } from './components/card/card.service.interface';
 
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
@@ -19,6 +21,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IProductsRepository>(TYPES.ProductsRepository).to(ProductsRepository).inSingletonScope();
 	bind<ICardController>(TYPES.CardController).to(CardController).inSingletonScope();
 	bind<ICardRepository>(TYPES.CardRepository).to(CardRepository).inSingletonScope();
+	bind<ICardService>(TYPES.CardService).to(CardService).inSingletonScope();
 	
 	bind<App>(TYPES.Application).to(App);
 });
