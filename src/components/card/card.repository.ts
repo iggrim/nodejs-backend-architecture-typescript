@@ -75,6 +75,7 @@ export class CardRepository implements ICardRepository {
     const card = await this.fetchItems();
 
     const idx = card.products.findIndex(c => c.id === id)
+    //console.log('--idx ', idx);
     const product = card.products[idx];
     if (product.count === 1) {
       // удалить
