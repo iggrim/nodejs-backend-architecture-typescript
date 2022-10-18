@@ -7,7 +7,8 @@ import { ProductsController } from './components/products/products.controller'
 import { CardController } from './components/card/card.controller'
 import * as path from "path";
 import { create, ExpressHandlebars } from 'express-handlebars';
-//import { engine } from 'express-handlebars';
+import { ILogger } from './components/logger/logger.interface'
+//import { LoggerService } from './components/logger/logger.service';
 import 'reflect-metadata';
 
 
@@ -19,6 +20,7 @@ export class App {
 
 
   constructor(
+    @inject(TYPES.ILogger) private logger: ILogger,
     @inject(TYPES.ProductsController) private productsController: ProductsController,
     @inject(TYPES.CardController) private cardController: CardController
   ) {
@@ -35,7 +37,7 @@ export class App {
     this.app.set('views', path.join(__dirname, "views-handlebars"));
 
     this.app.use(express.static(path.join(__dirname, 'public')));
-    this.app.use(express.urlencoded({extended: true}))
+    this.app.use(express.urlencoded({extended: true}));
   }
 
 
@@ -45,8 +47,8 @@ export class App {
   }
 
   public async init() {
-    this.useRotes();
-    this.app.listen(this.port)
-    console.log(`Server is running on port ${this.port}`)
+    this.useRotes();;
+    this.app.listen(this.port);
+    this.logger.log(`Сервер запущен на http://localhost:${this.port}`);
   }
 }

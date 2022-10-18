@@ -1,4 +1,6 @@
 import { Response, Router } from 'express';
+import { LoggerService } from '../logger/logger.service';
+import { ILogger } from '../logger/logger.interface';
 import { injectable } from 'inversify';
 import { IControllerRoute } from './route.interface';
 export { Router } from 'express';
@@ -8,7 +10,7 @@ import 'reflect-metadata';
 export abstract class BaseController {
 	private readonly _router: Router;
 
-	constructor() {
+	constructor(private logger: ILogger) {
 		this._router = Router();
 	}
 
@@ -31,6 +33,7 @@ export abstract class BaseController {
 	
 	protected bindRoutes(routes: IControllerRoute[]) {
 		for (const route of routes) {
+			this.logger.log(`[${route.method}] ${route.path}`); // смотрим, что забиндили
 			const handler = route.func.bind(this);
 			this.router[route.method](route.path, handler);
 		}

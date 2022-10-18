@@ -1,6 +1,8 @@
 import { Container, ContainerModule, interfaces } from 'inversify';
 import { TYPES } from './types';
 import { App } from "./app";
+import { ILogger } from './components/logger/logger.interface';
+import { LoggerService } from './components/logger/logger.service';
 import { ProductsController } from './components/products/products.controller';
 import { IProductsController } from './components/products/products.controller.interface';
 import { ProductsService } from './components/products/products.service';
@@ -16,6 +18,7 @@ import { ICardService } from './components/card/card.service.interface';
 
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
+	bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
 	bind<IProductsController>(TYPES.ProductsController).to(ProductsController);
 	bind<IProductsService>(TYPES.ProductsService).to(ProductsService);
 	bind<IProductsRepository>(TYPES.ProductsRepository).to(ProductsRepository).inSingletonScope();

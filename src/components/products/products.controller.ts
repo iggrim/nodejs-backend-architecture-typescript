@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { inject, injectable } from 'inversify';
+import { ILogger } from '../logger/logger.interface';
 import { TYPES } from '../../types';
 import { BaseController } from '../common/base.controller';
 import { IProductsController } from './products.controller.interface';
@@ -21,11 +22,12 @@ export class ProductsController extends BaseController implements IProductsContr
   для вызова функций родительского объекта.
    */
 	constructor(
+    @inject(TYPES.ILogger) private loggerService: ILogger,
     @inject(TYPES.ProductsService) private productsService: ProductsService,
     @inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository,
     
   ) {
-		super();
+		super(loggerService);
 		this.bindRoutes([
 			{ path: '/', method: 'get', func: this.home },     
 			{ path: '/add-product', method: 'get', func: this.addGet },

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { inject, injectable } from 'inversify';
+import { ILogger } from '../logger/logger.interface';
 import { TYPES } from '../../types';
 import { BaseController } from '../common/base.controller';
 import { ICardController } from './card.controller.interface';
@@ -20,11 +21,12 @@ export class CardController extends BaseController implements ICardController {
   для вызова функций родительского объекта.
    */
 	constructor(
+    @inject(TYPES.ILogger) private loggerService: ILogger,
     @inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository,
     @inject(TYPES.CardService) private cardService: CardService,
     @inject(TYPES.CardRepository) private cardRepository: CardRepository,
   ) {
-		super();
+		super(loggerService);
 		this.bindRoutes([
       { path: '/products-card', method: 'get', func: this.getCard},
       { path: '/products-card/add', method: 'post', func: this.addToCard}, 
