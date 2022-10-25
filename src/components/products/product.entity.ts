@@ -7,7 +7,7 @@ export class Product {
     private readonly _title: string, 
     private readonly _price: number, 
     private readonly _img: string,
-    private readonly _id: string, 
+    //private readonly _id: string, 
     ) {}
 
     public get img(): string {
@@ -19,8 +19,8 @@ export class Product {
     public get title(): string {
       return this._title;
     }
-    public get id(): string {
-      return this._id;
-    }
+    //public get id(): string {
+      //return this._id;
+    //}
 
 }

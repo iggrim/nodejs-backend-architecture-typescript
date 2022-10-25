@@ -15,12 +15,11 @@ export class ProductsService implements IProductsService{
   
   // Деструктурирующее присваивание. Разбор объекта ProductDto
   async createProduct({title, price, img }: ProductDto): Promise<Product>{
-    const id = uuidv4();
-    const newProduct = new Product(title, price, img, id);
-    
-    //const newRepository = this.productsRepository;
+    //const id = uuidv4();
+    //const newProduct = new Product(title, price, img, id);
+    const newProduct = new Product(title, price, img);
     await this.productsRepository.save(newProduct);
-
+    
     return newProduct;
   }
 }

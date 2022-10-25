@@ -4,7 +4,7 @@ export class CardItem {
     private readonly _title: string, 
     private readonly _price: number, 
     private readonly _img: string,
-    private readonly _id: string, 
+    //private readonly _id: string, 
     //private readonly _count: number,   
   )
   {}
@@ -18,9 +18,9 @@ export class CardItem {
     public get title(): string {
       return this._title;
     }
-    public get id(): string {
-      return this._id;
-    }
+    // public get id(): string {
+    //   return this._id;
+    // }
     // public get count(): number {
     //   return this._count;
     // }

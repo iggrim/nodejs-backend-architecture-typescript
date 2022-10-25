@@ -49,15 +49,15 @@ export class CardController extends BaseController implements ICardController {
   
 
   async getCard(req: Request, res: Response, next: NextFunction){
-    const card = await this.cardRepository.fetchItems()
+    // const card = await this.cardRepository.fetchItems()
 
-    console.log('---card ', card);
+    // console.log('---card ', card);
     
-    res.render('products-card', {
-      title_1: 'Корзина',
-      isCarad: true,
-      card,
-    })
+    // res.render('products-card', {
+    //   title_1: 'Корзина',
+    //   isCarad: true,
+    //   card,
+    // })
   }
 
   async deleteFromCard(req: Request, res: Response, next: NextFunction){
