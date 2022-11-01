@@ -55,6 +55,10 @@ export class ProductsRepository implements IProductsRepository {
     return findProduct;
   }
 
+  async deleteById(id:string){
+    await ProductModel.deleteOne({_id: id});
+  }
+
 }
 
 	

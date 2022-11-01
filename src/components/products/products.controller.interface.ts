@@ -5,4 +5,5 @@ export interface IProductsController {
 	addGet: (req: Request, res: Response, next: NextFunction) => void;
 	addPost: (req: Request, res: Response, next: NextFunction) => void;
   products: (req: Request, res: Response, next: NextFunction) => void;
+  remove: (req: Request, res: Response, next: NextFunction) => void;
 }

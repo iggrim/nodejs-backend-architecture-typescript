@@ -1,6 +1,6 @@
 <h2>Редактировать "{{product.title}}"</h2>
 
-<form action="/product/save-edit" method="POST">
+<form action="/product/save-edit" method="POST" class="course-form">
   <div class="input-field">
     <input id="title" name="title" type="text" class="validate" required value="{{product.title}}">
     <label for="title">Название товара</label>
@@ -22,4 +22,9 @@
   <input type="hidden" name="id" value="{{product._id}}">
 
   <button class="btn btn-primary">Сохранить изменения</button>
+</form>
+
+<form action="/product/remove" method="POST">
+  <input type="hidden" name="id" value="{{ product._id }}">
+  <button class="btn red">Удалить товар</button>
 </form>

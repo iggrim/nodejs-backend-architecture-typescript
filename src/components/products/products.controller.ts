@@ -13,7 +13,10 @@ import 'reflect-metadata';
 
 
 @injectable()
-export class ProductsController extends BaseController implements IProductsController {
+export class ProductsController
+  extends BaseController
+  implements IProductsController
+{
   /**
   Напоминание.
   В конструкторе ключевое слово super() используется как функция, вызывающая 
@@ -21,45 +24,47 @@ export class ProductsController extends BaseController implements IProductsContr
   слову this в теле конструктора. Ключевое слово super также может быть использовано 
   для вызова функций родительского объекта.
    */
-	constructor(
+  constructor(
     @inject(TYPES.ILogger) private loggerService: ILogger,
     @inject(TYPES.ProductsService) private productsService: ProductsService,
-    @inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository,
-    
+    @inject(TYPES.ProductsRepository)
+    private productsRepository: ProductsRepository
   ) {
-		super(loggerService);
-		this.bindRoutes([
-			{ path: '/', method: 'get', func: this.home },     
-			{ path: '/add-product', method: 'get', func: this.addGet },
-			{ path: '/add-product', method: 'post', func: this.addPost },
-			{ path: '/products', method: 'get', func: this.products },
-      { path: '/products/:id', method: 'get', func: this.productInfo }, 
-      { path: '/products/:id/edit', method: 'get', func: this.showEditProduct},
-      { path: '/product/save-edit', method: 'post', func: this.editProductPost},
-      
-		])
-	}
-
+    super(loggerService);
+    this.bindRoutes([
+      { path: "/", method: "get", func: this.home },
+      { path: "/add-product", method: "get", func: this.addGet },
+      { path: "/add-product", method: "post", func: this.addPost },
+      { path: "/products", method: "get", func: this.products },
+      { path: "/products/:id", method: "get", func: this.productInfo },
+      { path: "/products/:id/edit", method: "get", func: this.showEditProduct },
+      {
+        path: "/product/save-edit",
+        method: "post",
+        func: this.editProductPost,
+      },
+      { path: "/product/remove", method: "post", func: this.remove },
+    ]);
+  }
 
   home(req: Request, res: Response, next: NextFunction) {
-    res.render('index', {
-      title_1: 'Главная страница',
-      isHome: true
-    })  
+    res.render("index", {
+      title_1: "Главная страница",
+      isHome: true,
+    });
   }
 
   addGet(req: Request, res: Response, next: NextFunction) {
-    res.render('add-product', {
-      title_1: 'Добавить товар',
-      isAdd: true
-    })
+    res.render("add-product", {
+      title_1: "Добавить товар",
+      isAdd: true,
+    });
   }
 
   addPost(req: Request<{}, {}, ProductDto>, res: Response, next: NextFunction) {
-   
     this.productsService.createProduct(req.body);
-      
-    res.redirect('/products')
+
+    res.redirect("/products");
   }
 
   async products(req: Request, res: Response, next: NextFunction) {
@@ -67,47 +72,54 @@ export class ProductsController extends BaseController implements IProductsContr
     const products = await this.productsRepository.getAll();
     //console.log('--products ', products); // здесь все хорошо
 
-    res.render('products', {
-      title_1: 'Товары',
+    res.render("products", {
+      title_1: "Товары",
       isProducts: true,
-      products
-    })
+      products,
+    });
   }
 
-  async showEditProduct(req: Request, res: Response, next: NextFunction){
+  async showEditProduct(req: Request, res: Response, next: NextFunction) {
     if (!req.query.allow) {
-      return res.redirect('/'); // если не кастомный allow - return
+      return res.redirect("/"); // если не кастомный allow - return
     }
 
     const product = await this.productsRepository.getById(req.params.id);
 
-    res.render('product-edit', {
-      title_1: product ?`Редактировать ${product.title}` : "Товар не найден",
-      product
-    })
+    res.render("product-edit", {
+      title_1: product ? `Редактировать ${product.title}` : "Товар не найден",
+      product,
+    });
   }
 
-  async editProductPost(req: Request, res: Response, next: NextFunction){
-    const {id} = req.body;
+  async editProductPost(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.body;
     delete req.body.id;
 
-    console.log('----id', id);
+    console.log("----id", id);
     await this.productsRepository.update(id, req.body);
-    res.redirect('/products');
+    res.redirect("/products");
   }
 
   async productInfo(req: Request, res: Response, next: NextFunction) {
     //console.log('--req.params.id ', req.params.id);
-    
+
     const product = await this.productsRepository.getById(req.params.id);
-      
-    res.render('product', {
-      layout: 'empty',
-      title_1: product ?`Товар ${product.title}`: "Товар не найден", // это попадает в head.hbs
-      product
-    })
+
+    res.render("product", {
+      layout: "empty",
+      title_1: product ? `Товар ${product.title}` : "Товар не найден", // это попадает в head.hbs
+      product,
+    });
     //res.sendFile(path.join(__dirname,  'test.html')) //  попрежнему можно
   }
 
-
+  async remove(req: Request, res: Response, next: NextFunction) {
+    try {
+      await this.productsRepository.deleteById(req.body.id);
+      res.redirect("/products");
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
