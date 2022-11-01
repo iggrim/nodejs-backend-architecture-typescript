@@ -19,6 +19,7 @@
      
 
 {{#if products.length}}
+
 {{#each products}}
 
 <div class="row">
@@ -35,11 +36,11 @@
       </div>
 
       <div class="card-action actions">
-        <a href="/products/{{id}}" target="_blank" >Информация о товаре</a>
-        <a href="/products/{{id}}/edit?allow=true">Редактировать</a>
+        <a href="/products/{{_id}}" target="_blank" >Информация о товаре</a>
+        <a href="/products/{{_id}}/edit?allow=true">Редактировать</a>
          
-        <form action="/products-card/add" method="POST">
-          <input type="hidden" name="id" value="{{id}}">
+        <form action="/card-products/add" method="POST">
+          <input type="hidden" name="id" value="{{_id}}">
           <button type="submit" class="btn btn-primary">Купить</button>
         </form>
       </div>

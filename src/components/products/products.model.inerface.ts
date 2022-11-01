@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 export interface IProductModel extends Document {
-  title: string;
+  title: String;
   price: Number;
-  img: string;
+  img: String;
 }

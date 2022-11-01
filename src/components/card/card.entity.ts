@@ -9,13 +9,13 @@ export class CardItem {
   )
   {}
 
-    public get img(): string {
+    public get img(): String {
       return this._img;
     }
-    public get price(): number {
+    public get price(): Number {
       return this._price;
     }
-    public get title(): string {
+    public get title(): String {
       return this._title;
     }
     // public get id(): string {

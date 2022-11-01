@@ -56,11 +56,7 @@ export class ProductsController extends BaseController implements IProductsContr
   }
 
   addPost(req: Request<{}, {}, ProductDto>, res: Response, next: NextFunction) {
-    //console.log('req.body ', req.body)
-    
-    //const productsService = new ProductsService()
-    
-    // req.body - объект с телом запроса Post
+   
     this.productsService.createProduct(req.body);
       
     res.redirect('/products')
@@ -69,7 +65,7 @@ export class ProductsController extends BaseController implements IProductsContr
   async products(req: Request, res: Response, next: NextFunction) {
     //const products = await new ProductsRepository().getAll();
     const products = await this.productsRepository.getAll();
-    //console.log('--products ', products);
+    //console.log('--products ', products); // здесь все хорошо
 
     res.render('products', {
       title_1: 'Товары',
@@ -80,7 +76,7 @@ export class ProductsController extends BaseController implements IProductsContr
 
   async showEditProduct(req: Request, res: Response, next: NextFunction){
     if (!req.query.allow) {
-      return res.redirect('/'); // для прерывания функции - return
+      return res.redirect('/'); // если не кастомный allow - return
     }
 
     const product = await this.productsRepository.getById(req.params.id);
@@ -91,8 +87,12 @@ export class ProductsController extends BaseController implements IProductsContr
     })
   }
 
-  async editProductPost(req: Request<{}, {}, ProductDto>, res: Response, next: NextFunction){
-    await this.productsRepository.update(req.body);
+  async editProductPost(req: Request, res: Response, next: NextFunction){
+    const {id} = req.body;
+    delete req.body.id;
+
+    console.log('----id', id);
+    await this.productsRepository.update(id, req.body);
     res.redirect('/products');
   }
 

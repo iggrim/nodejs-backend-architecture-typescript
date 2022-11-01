@@ -28,9 +28,9 @@ export class CardController extends BaseController implements ICardController {
   ) {
 		super(loggerService);
 		this.bindRoutes([
-      { path: '/products-card', method: 'get', func: this.getCard},
-      { path: '/products-card/add', method: 'post', func: this.addToCard}, 
-      { path: '/products-card/remove/:id', method: 'delete', func: this.deleteFromCard} 
+      { path: '/card-products', method: 'get', func: this.getCard},
+      { path: '/card-products/add', method: 'post', func: this.addToCard}, 
+      { path: '/card-products/remove/:id', method: 'delete', func: this.deleteFromCard} 
 		])
 	}
 
@@ -42,9 +42,8 @@ export class CardController extends BaseController implements ICardController {
 
     if(product)
       await this.cardService.createCardtItem(product)
-      //await this.cardRepository.add(product);  
-
-    res.redirect('/products-card')
+      
+      res.redirect('/card-products')
   }
   
 
@@ -53,7 +52,7 @@ export class CardController extends BaseController implements ICardController {
 
     // console.log('---card ', card);
     
-    // res.render('products-card', {
+    // res.render('card-products', {
     //   title_1: 'Корзина',
     //   isCarad: true,
     //   card,

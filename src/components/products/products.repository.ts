@@ -8,6 +8,7 @@ import { IProductsRepository } from './products.repository.interface';
 import { ProductModel } from './products.model';
 import { IProductModel } from './products.model.inerface'
 //import { IProduct } from './products.inerface';
+import { ObjectId, LeanDocument, Query, Types } from 'mongoose';
 import 'reflect-metadata';
 
 @injectable()
@@ -22,25 +23,8 @@ export class ProductsRepository implements IProductsRepository {
   //   }
 	// }
 
-  async update(product:  ProductDto): Promise<void> {
-    // const products = await this.getAll();
-
-    // const idx = products.findIndex(c => c.id === product.id);
-    // products[idx] = product;
-
-    // return new Promise((resolve, reject) => {
-    //   fs.writeFile(
-    //     path.join(__dirname, '../../', 'data', 'products.json'),
-    //     JSON.stringify(products),
-    //     (err) => {
-    //       if (err) {
-    //         reject(err)
-    //       } else {
-    //         resolve()
-    //       }       
-    //     }      
-    //   )    
-    // }) 
+  async update(id: string, product:  ProductDto): Promise<void> {
+    await ProductModel.findByIdAndUpdate(id, product)
   }
 
 	//async save(product: Product): Promise<void> {
@@ -48,28 +32,27 @@ export class ProductsRepository implements IProductsRepository {
     
     const createProduct = new ProductModel({title, price, img});
     try {
-      createProduct.save();
+      createProduct.save(); // методы объекта модели
     } catch (e) {
       console.log('Ошибка при сохранении ',e);
     }
 		
 	}
 
-	async getAll() : Promise<(IProductModel)[]>{
-
-    const products = await ProductModel.find();
+	async getAll() : Promise<(LeanDocument<IProductModel & { _id: ObjectId; }>[])>{
+    
+    const products = await ProductModel.find().lean(); // методы объекта модели
+    //  Метод lean mongoose возвращает простые объекты JavaScript (POJO), а не документы Mongoose.
+   
     return products;
-	
+
   }
 
-  async getById(id: string): Promise<ProductDto | undefined> {
-
-    // const products = await this.getAll();
-    // //console.log('-products ', products)
-    // //console.log('-id -', id)
-    // const findProduct = products.find(p => p.id === id);
-    // return findProduct;
-     return
+  async getById(id: string): Promise<LeanDocument<IProductModel & { _id: ObjectId; }> | null > {
+    const findProduct = await ProductModel.findById(id).lean().exec(); // методы объекта модели
+    //const { title, price, img} = findProduct;
+    //console.log('----findProduct ', findProduct);
+    return findProduct;
   }
 
 }

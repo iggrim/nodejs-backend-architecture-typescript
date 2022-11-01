@@ -15,6 +15,5 @@ const ProductSchema: Schema = new Schema({
     
 })
 
-// const User: Model<IUser> = model('User', UserSchema);
-//export const ProductModel = model<IProductModel & Document>('Product', ProductSchema);
+
 export const ProductModel = model<IProductModel>('Product', ProductSchema);

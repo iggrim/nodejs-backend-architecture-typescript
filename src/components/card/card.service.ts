@@ -13,10 +13,12 @@ export class CardService implements ICardService{
   ){ }
 
   // Деструктурирующее присваивание. Разбор объекта ProductDto
-  async createCardtItem({title, price, img }: CardDto): Promise<CardItem>{
-    const newCardItem = new CardItem(title, price, img);
-    await this.cardRepository.add(newCardItem);
+  //async createCardtItem({title, price, img }: CardDto): Promise<CardItem>{
+  async createCardtItem({title, price, img }: CardDto){  
+    //const newCardItem = new CardItem(title, price, img,  );
+   //await this.cardRepository.add(newCardItem);
 
-    return newCardItem; //  а нужно ли?
+    //return newCardItem; //  а нужно ли?
+   
   }
 }
