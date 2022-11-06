@@ -1,8 +1,5 @@
 import { ProductDto } from "../products/product.dto";
 
-
-export interface ICardRepository { 
+export interface ICartRepository {
   add: (product: ProductDto) => Promise<void>;
-  
-  
 }

@@ -17,6 +17,7 @@ export class ExeptionFilter implements IExeptionFilter {
 		if (err instanceof HTTPError) {
 			this.logger.error(`[${err.context}] Ошибка ${err.statusCode}: ${err.message}`);
 			res.status(err.statusCode).send({ err: err.message });
+			//res.status(err.statusCode).send('404, такой страницы нет');
 		} else {
 			this.logger.error(`Ошибка ${err.message}`);
 			res.status(500).send({ err: err.message });

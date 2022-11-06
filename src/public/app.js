@@ -25,22 +25,22 @@
 //   intlForm.group1[i].addEventListener("click", onclick); // выбор по name = "intlForm"
 // }
 
-// const $card = document.querySelector('#card')
-// if ($card) {
-//   $card.addEventListener('click', event => {
+// const $cart = document.querySelector('#cart')
+// if ($cart) {
+//   $cart.addEventListener('click', event => {
 
 //     if (event.target.classList.contains('js-remove')) {
 
 //       const id = event.target.dataset.id // data-id="{{id}}
 
-//       fetch('/products-card/remove/' + id, {
+//       fetch('/products-cart/remove/' + id, {
 
 //         method: 'delete'
 
 //       }).then(res => res.json())
 
-//         .then(card => {
-//           console.log(card)
+//         .then(cart => {
+//           console.log(cart)
 //         })
 //     }
 
@@ -60,20 +60,20 @@ document.querySelectorAll(".price").forEach((node) => {
   node.textContent = toCurrency(node.textContent);
 }); // вызов при загрузке
 
-const $card = document.querySelector("#card");
+const $cart = document.querySelector("#cart");
 
-if ($card) {
-  $card.addEventListener("click", (event) => {
+if ($cart) {
+  $cart.addEventListener("click", (event) => {
     if (event.target.classList.contains("js-remove")) {
       const id = event.target.dataset.id;
 
-      fetch("/products-card/remove/" + id, {
+      fetch("/products-cart/remove/" + id, {
         method: "delete",
       })
         .then((res) => res.json())
-        .then((card) => {
-          if (card.products.length) {
-            const html = card.products
+        .then((cart) => {
+          if (cart.products.length) {
+            const html = cart.products
               .map((c) => {
                 return `
               <tr>
@@ -86,10 +86,10 @@ if ($card) {
               `;
               })
               .join("");
-            $card.querySelector("tbody").innerHTML = html;
-            $card.querySelector(".price").textContent = toCurrency(card.price);
+            $cart.querySelector("tbody").innerHTML = html;
+            $cart.querySelector(".price").textContent = toCurrency(cart.price);
           } else {
-            $card.innerHTML = "<p>Корзина пуста</p>";
+            $cart.innerHTML = "<p>Корзина пуста</p>";
           }
         });
     }
