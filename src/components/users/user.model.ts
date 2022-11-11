@@ -11,22 +11,7 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  cart: {
-    items: [
-      {
-        count: {
-          type: Number,
-          required: true,
-          default: 1
-        },
-        productId: {
-          type: Schema.Types.ObjectId,
-          ref: 'Product',
-          required: true
-        }
-      }
-    ]
-  }
 })
 
-export const UserModel = model<IUser>('User', UserSchema);
+// Модели создаются из схем методом mongoose.model():
+export const UserModel = model<IUser>('User', UserSchema); // 'User' - название модели

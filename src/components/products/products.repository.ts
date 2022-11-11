@@ -28,9 +28,9 @@ export class ProductsRepository implements IProductsRepository {
   }
 
 	//async save(product: Product): Promise<void> {
-	async save({title, price, img}: Product): Promise<void> {
+	async save({title, price, img, id}: Product): Promise<void> {
     
-    const createProduct = new ProductModel({title, price, img});
+    const createProduct = new ProductModel({title, price, img, id});
     try {
       createProduct.save(); // методы объекта модели
     } catch (e) {

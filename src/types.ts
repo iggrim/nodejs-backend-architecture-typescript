@@ -9,4 +9,6 @@ export const TYPES = {
   CartRepository: Symbol.for("CartRepository"),
   CartService: Symbol.for("CartService"),
   //ProductModel: Symbol.for('ProductModel'),
+  UserService: Symbol.for('UserService'),
+  UsersRepository: Symbol.for('UsersRepository'),
 };

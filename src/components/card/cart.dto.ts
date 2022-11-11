@@ -2,6 +2,6 @@ export class CartDto {
   price: Number;
   title: String;
   img: String;
-  //id: string;
+  id?: string;
   //count: number;
 }

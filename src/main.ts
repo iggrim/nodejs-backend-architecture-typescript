@@ -17,25 +17,25 @@ import { ICartController } from "./components/card/cart.controller.interface";
 import { CartController } from "./components/card/cart.controller";
 import { CartService } from "./components/card/cart.service";
 import { ICartService } from "./components/card/cart.service.interface";
-//import { ProductModel }  from './components/models/products';
-//import { IProductModel } from './components/models/products.inerface'
+import { IUserService} from './components/users/users.service.interface';
+import { UserService } from './components/users/users.service';
+import { IUsersRepository } from './components/users/users.repository.interface';
+import { UsersRepository } from './components/users/users.repository';
+
+
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
   bind<IExeptionFilter>(TYPES.ExeptionFilter).to(ExeptionFilter);
   bind<IProductsController>(TYPES.ProductsController).to(ProductsController);
   bind<IProductsService>(TYPES.ProductsService).to(ProductsService);
-  bind<IProductsRepository>(TYPES.ProductsRepository)
-    .to(ProductsRepository)
-    .inSingletonScope();
-  bind<ICartController>(TYPES.CartController)
-    .to(CartController)
-    .inSingletonScope();
-  bind<ICartRepository>(TYPES.CartRepository)
-    .to(CartRepository)
-    .inSingletonScope();
-  bind<ICartService>(TYPES.CartService).to(CartService).inSingletonScope();
-  //bind<IProductModel>(TYPES.ProductModel).to(ProductModel);
+  bind<IProductsRepository>(TYPES.ProductsRepository).to(ProductsRepository).inSingletonScope();
+  bind<ICartController>(TYPES.CartController).to(CartController);
+  bind<ICartRepository>(TYPES.CartRepository).to(CartRepository).inSingletonScope();
+  bind<ICartService>(TYPES.CartService).to(CartService);
+  bind<IUserService>(TYPES.UserService).to(UserService);
+  bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inSingletonScope();
+  
 
   bind<App>(TYPES.Application).to(App);
 });

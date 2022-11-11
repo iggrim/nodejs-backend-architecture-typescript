@@ -6,6 +6,7 @@ import { TYPES } from '../../types';
 import { BaseController } from '../common/base.controller';
 import { IProductsController } from './products.controller.interface';
 import { ProductDto } from './product.dto';
+import { Product } from './product.entity';
 import { ProductsService } from './products.service';
 import { ProductsRepository} from './products.repository';
 
@@ -62,14 +63,15 @@ export class ProductsController
   }
 
   addPost(req: Request<{}, {}, ProductDto>, res: Response, next: NextFunction) {
-    this.productsService.createProduct(req.body);
-
+    this.productsService.createProduct(req.body, req.user);
+console.log('---req.user._id ', req.user._id);
+console.log('---req.user ', req.user);
     res.redirect("/products");
   }
 
   async products(req: Request, res: Response, next: NextFunction) {
     //const products = await new ProductsRepository().getAll();
-    const products = await this.productsRepository.getAll();
+    const products = await this.productsService.allRecords();
     //console.log('--products ', products); // здесь все хорошо
 
     res.render("products", {
@@ -84,7 +86,7 @@ export class ProductsController
       return res.redirect("/"); // если не кастомный allow - return
     }
 
-    const product = await this.productsRepository.getById(req.params.id);
+    const product = await this.productsService.getReordById(req.params.id);
 
     res.render("product-edit", {
       title_1: product ? `Редактировать ${product.title}` : "Товар не найден",
@@ -92,19 +94,19 @@ export class ProductsController
     });
   }
 
-  async editProductPost(req: Request, res: Response, next: NextFunction) {
+  async editProductPost(req: Request<{}, {}, ProductDto>, res: Response, next: NextFunction) {
     const { id } = req.body;
     delete req.body.id;
 
     console.log("----id", id);
-    await this.productsRepository.update(id, req.body);
+    if (id)  await this.productsService.updateRecord(id, req.body);
     res.redirect("/products");
   }
 
   async productInfo(req: Request, res: Response, next: NextFunction) {
     //console.log('--req.params.id ', req.params.id);
 
-    const product = await this.productsRepository.getById(req.params.id);
+    const product = await this.productsService.getReordById(req.params.id);
 
     res.render("product", {
       layout: "empty",
@@ -116,7 +118,7 @@ export class ProductsController
 
   async remove(req: Request, res: Response, next: NextFunction) {
     try {
-      await this.productsRepository.deleteById(req.body.id);
+      await this.productsService.deleteRecordById(req.body.id);
       res.redirect("/products");
     } catch (e) {
       console.log(e);

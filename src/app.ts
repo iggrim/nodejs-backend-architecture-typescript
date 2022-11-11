@@ -84,7 +84,7 @@ export class App {
     try {
       await this.mongoose.connect(DB_URI);
       this.logger.log("Mongodb connected");
-      this.userService.createUser({ // временно
+      this.userService.createUser({ // временно пока нет авторизации
         email: 'harry@mail.ru',
         name: 'Harry',    
       })

@@ -1,7 +1,11 @@
-import { Document } from 'mongoose';
+import { ObjectId, Document } from 'mongoose';
 
 export interface IProductModel extends Document {
-  title: String;
-  price: Number;
-  img: String;
+  title: string;
+  price: number;
+  img: string;
+  userId: { // сылка на id  пользователя создавшего товар
+    type: ObjectId,
+    ref: 'User' // данная строка должна совпадать с названием модели User
+  }
 }

@@ -1,4 +1,4 @@
-import { model, Schema, Model, Document } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { IProductModel } from './products.model.inerface'
 
 
@@ -11,8 +11,13 @@ const ProductSchema: Schema = new Schema({
     type: Number,
     required: true
   },
+
   img: String,
-    
+
+  userId: { // сылка на id  пользователя создавшего товар
+    type: Schema.Types.ObjectId,
+    ref: 'User' // данная строка должна совпадать с названием модели User
+  }
 })
 
 

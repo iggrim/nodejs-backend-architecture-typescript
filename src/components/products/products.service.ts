@@ -3,7 +3,10 @@ import { TYPES } from '../../types';
 import { IProductsService } from "./products.service.interface";
 import { Product } from "./product.entity";
 import { ProductDto } from './product.dto';
-import { ProductsRepository} from './products.repository'
+import { ProductsRepository} from './products.repository';
+import { IProductModel } from './products.model.inerface';
+import { ProductModel } from './products.model';
+import { ObjectId, LeanDocument } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -14,13 +17,31 @@ export class ProductsService implements IProductsService{
   ){ }
   
   // Деструктурирующее присваивание. Разбор объекта ProductDto
-  async createProduct({title, price, img }: ProductDto): Promise<Product>{
+  async createProduct({title, price, img }: ProductDto, id: ObjectId): Promise<Product>{
     //const id = uuidv4();
     //const newProduct = new Product(title, price, img, id);
-    const newProduct = new Product(title, price, img);
+    const newProduct = new Product(title, price, img, id);
     await this.productsRepository.save(newProduct);
     
     return newProduct;
+  }
+
+  async allRecords(): Promise<(LeanDocument<IProductModel & { _id: ObjectId; }>[])>{
+    const products = await this.productsRepository.getAll();  
+    return products;
+  }
+
+  async getReordById(id: string): Promise<LeanDocument<IProductModel & { _id: ObjectId; }> | null >{
+    const product = await this.productsRepository.getById(id);  
+    return product;
+  }
+
+  async updateRecord(id: string, product:  ProductDto): Promise<void>{
+    await this.productsRepository.update(id, product);
+  }
+
+  async deleteRecordById(id:string): Promise<void>{
+    await this.productsRepository.deleteById(id);
   }
 }
 
