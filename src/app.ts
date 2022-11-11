@@ -9,14 +9,16 @@ import * as path from "path";
 import { create, ExpressHandlebars } from "express-handlebars";
 import { ILogger } from "./components/logger/logger.interface";
 import { IExeptionFilter } from "./components/errors/exeption.filter.interface";
-//import { ExeptionFilter } from './components/errors/exeption.filter';
-//import { LoggerService } from './components/logger/logger.service';
 import { json } from "body-parser";
 import mongoose from "mongoose";
 import { Mongoose } from "mongoose";
 import { UserModel } from './components/users/user.model';
 import { AuthMiddleware } from "./components/common/auth.middleware";
 import { Catch404Midleware } from './components/common/404.midlware';
+//import { IUserService} from './components/users/users.service.interface';
+import { UserService } from './components/users/users.service';
+
+
 import "reflect-metadata";
 
 
@@ -30,9 +32,10 @@ export class App {
   constructor(
     @inject(TYPES.ILogger) private logger: ILogger,
     @inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
-    @inject(TYPES.ProductsController)
-    private productsController: ProductsController,
-    @inject(TYPES.CartController) private cardController: CartController
+    @inject(TYPES.ProductsController) private productsController: ProductsController,
+    @inject(TYPES.CartController) private cardController: CartController,
+    @inject(TYPES.UserService) private userService: UserService,
+
   ) {
     this.app = express();
     this.port = 3000;
@@ -69,17 +72,6 @@ export class App {
     this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter));
   }
 
-  // useMiddlewareUser() {
-  //   async (req, res, next) => {
-  //     try {
-  //       const user = await UserModel.findById('63652911b0321826dbc312c7')
-  //       req.user = user
-  //       next()
-  //     } catch (e) {
-  //       console.log(e)
-  //     }
-  //   }
-  // }
  
   public async init() {
     this.useMiddleware();
@@ -92,22 +84,26 @@ export class App {
     try {
       await this.mongoose.connect(DB_URI);
       this.logger.log("Mongodb connected");
+      this.userService.createUser({ // временно
+        email: 'harry@mail.ru',
+        name: 'Harry',    
+      })
       this.app.listen(this.port);
       this.logger.log(`Сервер запущен на http://localhost:${this.port}`);
     } catch (e) {
       this.logger.log("Ошибка подключения к mongodb", e);
     }
 
-    const candidate = await UserModel.findOne();
+    // const candidate = await UserModel.findOne();
 
-    if (!candidate) {
-      const user = new UserModel({
-        email: 'harry@mail.ru',
-        name: 'Harry',
-        cart: {items: []}
-      })
-      await user.save() // сохранякм документ
-    }
+    // if (!candidate) {
+    //   const user = new UserModel({
+    //     email: 'harry@mail.ru',
+    //     name: 'Harry',
+    //     cart: {items: []}
+    //   })
+    //   await user.save() // сохранякм документ
+    // }
 
   }
 }
