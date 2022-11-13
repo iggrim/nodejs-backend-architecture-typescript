@@ -13,30 +13,19 @@ import 'reflect-metadata';
 
 @injectable()
 export class ProductsRepository implements IProductsRepository {
-	// product: Product;
-
-
-  // деструктуризация объекта
-	// toJson({title, price, img, id}:Product){
-  //   return {
-  //     title, price, img, id
-  //   }
-	// }
 
   async update(id: string, product:  ProductDto): Promise<void> {
     await ProductModel.findByIdAndUpdate(id, product)
   }
 
 	//async save(product: Product): Promise<void> {
-	async save({title, price, img, id}: Product): Promise<void> {
-    
-    const createProduct = new ProductModel({title, price, img, id});
+	async save({title, price, img, userId}: Product): Promise<void> {     
+    const createProduct = new ProductModel({title, price, img, userId});
     try {
       createProduct.save(); // методы объекта модели
     } catch (e) {
       console.log('Ошибка при сохранении ',e);
-    }
-		
+    }	
 	}
 
 	async getAll() : Promise<(LeanDocument<IProductModel & { _id: ObjectId; }>[])>{
@@ -45,15 +34,10 @@ export class ProductsRepository implements IProductsRepository {
     //  Метод lean mongoose возвращает простые объекты JavaScript (POJO), а не документы Mongoose.
    
     return products;
-
   }
 
   async getById(id: string): Promise<LeanDocument<IProductModel & { _id: ObjectId; }> | null > {
-    try{
-      
-    }catch(e){
-      
-    }
+   
     const findProduct = await ProductModel.findById(id).lean().exec(); // методы объекта модели
     //const { title, price, img} = findProduct;
     //console.log('----findProduct ', findProduct);

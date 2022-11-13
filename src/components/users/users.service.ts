@@ -17,14 +17,13 @@ export class UserService implements IUserService {
 	) {}
 	// Деструктурирующее присваивание. Разбор объекта UserRegisterDto
 	async createUser({ email, name, password }: UserRegisterDto): Promise<IUser | null> {
-		const newUser = new User(email, name);
-		
-		
+				
 		//const existedUser = await this.usersRepository.find(email);
 		const existedUser = await this.usersRepository.find();
 		if (existedUser) {
 			return null;
 		}
+		const newUser = new User(email, name);
 		return this.usersRepository.create(newUser);
 	}
 

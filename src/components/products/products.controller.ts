@@ -62,15 +62,14 @@ export class ProductsController
     });
   }
 
-  addPost(req: Request<{}, {}, ProductDto>, res: Response, next: NextFunction) {
+  // addPost(req: Request<{}, {}, ProductDto>, res: Response, next: NextFunction) {
+  addPost(req: Request, res: Response, next: NextFunction) {  
     this.productsService.createProduct(req.body, req.user);
-console.log('---req.user._id ', req.user._id);
-console.log('---req.user ', req.user);
     res.redirect("/products");
   }
 
   async products(req: Request, res: Response, next: NextFunction) {
-    //const products = await new ProductsRepository().getAll();
+    
     const products = await this.productsService.allRecords();
     //console.log('--products ', products); // здесь все хорошо
 

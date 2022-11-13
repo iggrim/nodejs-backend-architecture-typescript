@@ -10,11 +10,11 @@ import { IUsersRepository } from './users.repository.interface';
 @injectable()
 export class UsersRepository implements IUsersRepository {
 	
-	async create({ email, password, name }: User): Promise<IUser> {
-      const user = new UserModel({
+	async create({ email, name }: User): Promise<IUser> {
+      const user = new UserModel({ // временно
         email: 'harry@mail.ru',
         name: 'Harry',
-        cart: {items: []}
+        
       })
       await user.save() // сохранякм документ
       console.log('Пользователь создан ', user._id);

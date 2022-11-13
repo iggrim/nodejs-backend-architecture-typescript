@@ -5,15 +5,19 @@ import { UserModel } from '../users/user.model';
 
 export class AuthMiddleware implements IMiddleware {
 	
-	execute(req: Request, res: Response, next: NextFunction): void {
+	async execute(req: Request, res: Response, next: NextFunction): Promise<void> {
 		try {
-			const user =  UserModel.findById('636d3ab9063b041167f36f39') // временно
-			req.user = user.lean().exec(function(error, record) {
-				if(record){
-					console.log('--auth.middleware user пользователь найден', record._id);
-				}		
-			});
-			//console.log('--auth.middleware user пользователь найден', user );
+			// операция асинхронная надо await UserModel.findById('636d3ab9063b041167f36f39') 
+			const user =  await UserModel.findById('636ffcdab825996e9c97ae90') // временно
+			
+			// req.user = user.lean().exec(function(error, record) {
+			// 	if(record){
+			// 		console.log('--auth.middleware user пользователь найден', record._id);
+			// 	}		
+			// });
+			if(user)
+			req.user = user;
+			//console.log('--auth пользователь найден', user );
 			next()
 		} catch (e) {
 			console.log(e)

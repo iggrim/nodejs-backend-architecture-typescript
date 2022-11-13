@@ -1,8 +1,10 @@
-import {Schema, model} from 'mongoose';
+import {Schema, Types, model} from 'mongoose';
 import { IUser } from './user.model.interface';
 
 
 const UserSchema = new Schema({
+ // _id: Types.ObjectId, 
+
   email: {
     type: String,
     required: true

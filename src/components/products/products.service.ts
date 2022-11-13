@@ -6,7 +6,7 @@ import { ProductDto } from './product.dto';
 import { ProductsRepository} from './products.repository';
 import { IProductModel } from './products.model.inerface';
 import { ProductModel } from './products.model';
-import { ObjectId, LeanDocument } from 'mongoose';
+import { Schema, Types, LeanDocument } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -17,21 +17,19 @@ export class ProductsService implements IProductsService{
   ){ }
   
   // Деструктурирующее присваивание. Разбор объекта ProductDto
-  async createProduct({title, price, img }: ProductDto, id: ObjectId): Promise<Product>{
-    //const id = uuidv4();
-    //const newProduct = new Product(title, price, img, id);
-    const newProduct = new Product(title, price, img, id);
-    await this.productsRepository.save(newProduct);
-    
-    return newProduct;
+  async createProduct({title, price, img }: ProductDto, userId: Schema.Types.ObjectId): Promise<Product> {   
+      const newProduct = new Product(title, price, img, userId);
+      await this.productsRepository.save(newProduct);
+      
+      return newProduct;
   }
 
-  async allRecords(): Promise<(LeanDocument<IProductModel & { _id: ObjectId; }>[])>{
+  async allRecords(): Promise<(LeanDocument<IProductModel & { _id: Types.ObjectId; }>[])>{
     const products = await this.productsRepository.getAll();  
     return products;
   }
 
-  async getReordById(id: string): Promise<LeanDocument<IProductModel & { _id: ObjectId; }> | null >{
+  async getReordById(id: string): Promise<LeanDocument<IProductModel & { _id: Types.ObjectId; }> | null >{
     const product = await this.productsRepository.getById(id);  
     return product;
   }

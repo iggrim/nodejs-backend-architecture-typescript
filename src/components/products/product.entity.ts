@@ -1,5 +1,5 @@
 
-import { ObjectId } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 
 export class Product {
     
@@ -8,7 +8,7 @@ export class Product {
     private readonly _title: string, 
     private readonly _price: number, 
     private readonly _img: string,
-    private readonly _id: ObjectId, 
+    private readonly _userId: Schema.Types.ObjectId, 
     ) {}
 
     public get img(): string {
@@ -20,8 +20,8 @@ export class Product {
     public get title(): string {
       return this._title;
     }
-    public get id(): ObjectId {
-      return this._id;
+    public get userId(): Schema.Types.ObjectId {
+      return this._userId;
     }
 
 }

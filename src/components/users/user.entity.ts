@@ -1,9 +1,8 @@
 //import { hash } from 'bcryptjs';
 
 export class User {
-	private _password: string;
-	private _cart: {items: Array<{count: number, productId: string}>[]}
-
+	//private _password: string;
+	
 	constructor(private readonly _email: string, private readonly _name: string) {}
 
 	get email(): string {
@@ -14,14 +13,11 @@ export class User {
 		return this._name;
 	}
 
-	get password(): string {
-		return this._password;
-	}
+	// get password(): string {
+	// 	return this._password;
+	// }
 
-	get cart():{items: Array<{count: number, productId: string}>[]} {
-		return this._cart;
-	}
-
+	
 	public async setPassword(pass: string, salt: number): Promise<void> {
 		//this._password = await hash(pass, salt);
 	}

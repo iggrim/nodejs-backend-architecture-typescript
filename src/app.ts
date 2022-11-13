@@ -12,7 +12,6 @@ import { IExeptionFilter } from "./components/errors/exeption.filter.interface";
 import { json } from "body-parser";
 import mongoose from "mongoose";
 import { Mongoose } from "mongoose";
-import { UserModel } from './components/users/user.model';
 import { AuthMiddleware } from "./components/common/auth.middleware";
 import { Catch404Midleware } from './components/common/404.midlware';
 //import { IUserService} from './components/users/users.service.interface';
@@ -33,7 +32,7 @@ export class App {
     @inject(TYPES.ILogger) private logger: ILogger,
     @inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
     @inject(TYPES.ProductsController) private productsController: ProductsController,
-    @inject(TYPES.CartController) private cardController: CartController,
+    @inject(TYPES.CartController) private cartController: CartController,
     @inject(TYPES.UserService) private userService: UserService,
 
   ) {
@@ -63,9 +62,9 @@ export class App {
 
   useRotes() {
     this.app.use("/", this.productsController.router); // .router - это геттер в base.controller.ts
-    this.app.use("/", this.cardController.router); // .router - это геттер в base.controller.ts
-    const catch404Midleware = new Catch404Midleware();
-    this.app.use(catch404Midleware.execute.bind(Catch404Midleware));
+    this.app.use("/", this.cartController.router); // .router - это геттер в base.controller.ts
+    //const catch404Midleware = new Catch404Midleware();
+    //this.app.use(catch404Midleware.execute.bind(Catch404Midleware));
   }
 
   useExeptionFilters(): void {
