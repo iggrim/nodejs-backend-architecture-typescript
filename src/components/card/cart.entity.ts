@@ -1,25 +1,34 @@
-export class CartItem {
-  constructor(
-    private readonly _title: string,
-    private readonly _price: number,
-    private readonly _img: string
-  ) //private readonly _id: string,
-  //private readonly _count: number,
-  {}
+import { Schema } from 'mongoose';
 
-  public get img(): String {
-    return this._img;
+export class Cart {
+  private readonly _items: [{count: number, productId: Schema.Types.ObjectId }]
+  
+  constructor(
+    private readonly _userId: Schema.Types.ObjectId,
+    private readonly _count: number,
+    private readonly _productId: Schema.Types.ObjectId,
+    
+  ) 
+  {
+    // this._userId = _userId
+    this._items = [{
+      count: this._count,
+      productId: this._productId,
+    }]
   }
-  public get price(): Number {
-    return this._price;
+ 
+  public get usreId(): Schema.Types.ObjectId {
+    return this._userId;
   }
-  public get title(): String {
-    return this._title;
+  public get items(): [{count: number, productId: Schema.Types.ObjectId }] {
+    return this._items;
   }
-  // public get id(): string {
-  //   return this._id;
-  // }
+  
   // public get count(): number {
   //   return this._count;
   // }
+  // public get productId(): Schema.Types.ObjectId {
+  //   return this._productId;
+  // }
+ 
 }

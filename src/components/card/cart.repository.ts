@@ -1,26 +1,28 @@
 import { injectable } from "inversify";
 import fs from "fs";
 import path from "path";
-import { ProductDto } from "../products/product.dto";
-import { CartDto } from "./cart.dto";
-import { CartItem } from "./cart.entity";
+import { Cart } from "./cart.entity";
+import { CartModel } from './cart.model';
 import { ICartRepository } from "./cart.repository.interface";
 import "reflect-metadata";
 
 @injectable()
 export class CartRepository implements ICartRepository {
-  // срабатывают геттеры в CartItem
-  //toJson({title, price, img, id}: CartDto){
-  toJson({ title, price, img }: CartDto) {
-    return {
-      title,
-      price,
-      img,
-    };
+ 
+
+  async addToCart(item: Cart): Promise<void> {
+    
+    //const createCart =  new CartModel(item.usreId, item.items);
+    const createCart =  new CartModel({userId: item.usreId, items: item.items});
+    //console.log('--createCart ', createCart);
+    try {
+      createCart.save(); // методы объекта модели
+    } catch (e) {
+      console.log('Ошибка при сохранении ',e);
+    }	
+
   }
 
-  async add(product: CartDto): Promise<void> {}
-
   //async remove(id: string): Promise<{products: {img: string, price: number, title: string, id: string, count: number}[], price: number}>{
-  async remove(id: string) {}
+  //async remove(id: string) {}
 }

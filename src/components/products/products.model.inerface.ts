@@ -1,4 +1,4 @@
-import { Schema, Types, Document } from 'mongoose';
+import { Schema, Document } from 'mongoose';
 
 export interface IProductModel extends Document {
   title: string;

@@ -1,7 +1,7 @@
 export class CartDto {
-  price: Number;
-  title: String;
-  img: String;
-  id?: string;
+  userId: string;
+  count: number;
+  productId: string;
+  
   //count: number;
 }

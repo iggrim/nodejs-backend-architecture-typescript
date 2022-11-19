@@ -1,5 +1,6 @@
-import { CartItem } from "./cart.entity";
+import { Schema } from 'mongoose';
 
 export interface ICartService {
-  //createCarttItem: (item: CartItem) => Promise<CartItem>,
+  createCarttItem: (userId: Schema.Types.ObjectId, productId: string) => Promise<void>,
+
 }

@@ -35,7 +35,7 @@ export class ProductsController
     this.bindRoutes([
       { path: "/", method: "get", func: this.home },
       { path: "/add-product", method: "get", func: this.addGet },
-      { path: "/add-product", method: "post", func: this.addPost },
+      { path: "/add-product", method: "post", func: this.addProduct },
       { path: "/products", method: "get", func: this.products },
       { path: "/products/:id", method: "get", func: this.productInfo },
       { path: "/products/:id/edit", method: "get", func: this.showEditProduct },
@@ -63,7 +63,7 @@ export class ProductsController
   }
 
   // addPost(req: Request<{}, {}, ProductDto>, res: Response, next: NextFunction) {
-  addPost(req: Request, res: Response, next: NextFunction) {  
+  addProduct(req: Request, res: Response, next: NextFunction) {  
     this.productsService.createProduct(req.body, req.user);
     res.redirect("/products");
   }

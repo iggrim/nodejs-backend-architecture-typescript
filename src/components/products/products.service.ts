@@ -17,6 +17,7 @@ export class ProductsService implements IProductsService{
   ){ }
   
   // Деструктурирующее присваивание. Разбор объекта ProductDto
+  // и из rec.user вытаскиваем userId:
   async createProduct({title, price, img }: ProductDto, userId: Schema.Types.ObjectId): Promise<Product> {   
       const newProduct = new Product(title, price, img, userId);
       await this.productsRepository.save(newProduct);

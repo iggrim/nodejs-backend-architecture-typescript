@@ -1,5 +1,6 @@
-import { ProductDto } from "../products/product.dto";
+import { Cart } from "./cart.entity";
 
 export interface ICartRepository {
-  add: (product: ProductDto) => Promise<void>;
+  addToCart: (item: Cart) => Promise<void>;
+  //remove: (id: string) => Promise<void>;
 }

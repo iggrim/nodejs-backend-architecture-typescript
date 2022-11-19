@@ -21,8 +21,7 @@ export class CartController extends BaseController implements ICartController {
    */
   constructor(
     @inject(TYPES.ILogger) private loggerService: ILogger,
-    @inject(TYPES.ProductsRepository)
-    private productsRepository: ProductsRepository,
+    @inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository,
     @inject(TYPES.CartService) private cardService: CartService,
     @inject(TYPES.CartRepository) private cardRepository: CartRepository
   ) {
@@ -39,11 +38,11 @@ export class CartController extends BaseController implements ICartController {
   }
 
   async addToCart(req: Request, res: Response, next: NextFunction) {
-    const product = await this.productsRepository.getById(req.body.id);
+    const cart = await this.cardService.createCarttItem(req.user._id, req.body.id);
 
     //console.log('---product ', product);
 
-    if (product) await this.cardService.createCarttItem(product);
+    //if (product) await this.cardService.createCarttItem(product);
 
     res.redirect("/cart-products");
   }
@@ -59,7 +58,7 @@ export class CartController extends BaseController implements ICartController {
   }
 
   async deleteFromCart(req: Request, res: Response, next: NextFunction) {
-    const cart = await this.cardRepository.remove(req.params.id);
-    res.status(200).json(cart);
+    //const cart = await this.cardRepository.remove(req.params.id);
+    //res.status(200).json(cart);
   }
 }

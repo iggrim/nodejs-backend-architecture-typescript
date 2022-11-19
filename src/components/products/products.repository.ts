@@ -21,6 +21,7 @@ export class ProductsRepository implements IProductsRepository {
 	//async save(product: Product): Promise<void> {
 	async save({title, price, img, userId}: Product): Promise<void> {     
     const createProduct = new ProductModel({title, price, img, userId});
+    console.log('--createProduct ', createProduct);
     try {
       createProduct.save(); // методы объекта модели
     } catch (e) {
@@ -30,9 +31,10 @@ export class ProductsRepository implements IProductsRepository {
 
 	async getAll() : Promise<(LeanDocument<IProductModel & { _id: ObjectId; }>[])>{
     
-    const products = await ProductModel.find().lean(); // методы объекта модели
+    const products = await ProductModel.find().populate('userId', 'email name').lean(); // методы объекта модели
     //  Метод lean mongoose возвращает простые объекты JavaScript (POJO), а не документы Mongoose.
    
+    //console.log('--products ', products);
     return products;
   }
 

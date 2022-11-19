@@ -1,9 +1,11 @@
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../types";
 import { ICartService } from "./cart.service.interface";
-import { CartDto } from "./cart.dto";
-import { CartItem } from "./cart.entity";
+import { Cart } from './cart.entity';
+import { CartModel } from './cart.model';
 import { CartRepository } from "./cart.repository";
+import { Schema } from 'mongoose';
+import { ProductModel } from '../products/products.model'
 
 @injectable()
 export class CartService implements ICartService {
@@ -11,11 +13,20 @@ export class CartService implements ICartService {
     @inject(TYPES.CartRepository) private cardRepository: CartRepository
   ) {}
 
-  // Деструктурирующее присваивание. Разбор объекта ProductDto
-  //async createCarttItem({title, price, img }: CartDto): Promise<CartItem>{
-  async createCarttItem({ title, price, img }: CartDto) {
-    //const newCartItem = new CartItem(title, price, img,  );
-    //await this.cardRepository.add(newCartItem);
-    //return newCartItem; //  а нужно ли?
+  
+  async createCarttItem(userId: Schema.Types.ObjectId, productId: string) {
+    //console.log('userId, productId ' , userId , productId);
+    const cartUser = await CartModel.findById(userId);
+    
+    
+    
+    if (!cartUser) {
+      const productItem =  await ProductModel.findById(productId);
+      const cartItem = new Cart(userId, 1, productItem?._id);
+      // console.log('cartItem.usreId ' , cartItem.usreId);
+      //console.log('cartItem.items ' , cartItem.items[0].count);
+      this.cardRepository.addToCart(cartItem);
+
+    }
   }
 }
