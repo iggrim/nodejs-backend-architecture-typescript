@@ -38,7 +38,7 @@ export class CartController extends BaseController implements ICartController {
   }
 
   async addToCart(req: Request, res: Response, next: NextFunction) {
-    const cart = await this.cardService.createCarttItem(req.user._id, req.body.id);
+    const cart = await this.cardService.createCartItem(req.user._id, req.body.id);
 
     //console.log('---product ', product);
 
