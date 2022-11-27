@@ -1,6 +1,8 @@
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
+import { ICart } from "./cart.model.interface";
 
 export interface ICartService {
-  createCarttItem: (userId: Schema.Types.ObjectId, productId: string) => Promise<void>,
+  createCartItem: (userId: Schema.Types.ObjectId, productId: string) => Promise<void>;
+  getReordById: (userId: Schema.Types.ObjectId) => Promise<(ICart & {_id: Types.ObjectId;}) | null> 
 
 }

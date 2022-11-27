@@ -40,9 +40,9 @@ export class ProductsRepository implements IProductsRepository {
 
   async getById(id: string): Promise<LeanDocument<IProductModel & { _id: ObjectId; }> | null > {
    
+    // lean() - для передачи в шаблонизатор нужен простой JS объект
     const findProduct = await ProductModel.findById(id).lean().exec(); // методы объекта модели
-    //const { title, price, img} = findProduct;
-    //console.log('----findProduct ', findProduct);
+    
     return findProduct;
   }
 

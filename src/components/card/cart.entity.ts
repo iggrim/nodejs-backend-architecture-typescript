@@ -23,12 +23,5 @@ export class Cart {
   public get items(): [{count: number, productId: Schema.Types.ObjectId }] {
     return this._items;
   }
-  
-  // public get count(): number {
-  //   return this._count;
-  // }
-  // public get productId(): Schema.Types.ObjectId {
-  //   return this._productId;
-  // }
  
 }
