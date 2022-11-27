@@ -26,11 +26,14 @@ export class CartRepository implements ICartRepository {
 
   }
 
-  async getById(userId: Schema.Types.ObjectId): Promise<(ICart & {_id: Types.ObjectId;}) | null> {
+  async getById(userId: string): Promise<(ICart & {_id: Types.ObjectId;}) | null> {
     const cartUser = await CartModel.findById(userId);
     return cartUser;
   }
 
-  //async remove(id: string): Promise<{products: {img: string, price: number, title: string, id: string, count: number}[], price: number}>{
-  //async remove(id: string) {}
+  async getRecord(userId: string): Promise<(ICart & {_id: Types.ObjectId;}) | null> {
+    const cartUser = await CartModel.findOne({userId: userId});
+    return cartUser;
+  }
+  
 }

@@ -17,14 +17,16 @@ export class CartService implements ICartService {
 
   async createCartItem(userId: Schema.Types.ObjectId, productId: string) {
     
-    const cartUser = await this.getReordById(userId);
+    const cartUser = await this.getReord(userId.toString());
     const productItem = await this.productsService.getReordById(productId);
+    console.log('--userId.toString() ', userId.toString());
+    console.log('--cartUser ', cartUser);
 
     if (!cartUser) {
       const cartItem = new Cart(userId, 1, productItem?._id);
       this.cardRepository.addToCart(cartItem);
     } else {
-      const items = [...cartUser.items];
+      const items = [...cartUser.items]; //  копия cartUser.items
       const idx = items.findIndex(
         (item) => item.productId.toString() == productId
       );
@@ -37,11 +39,19 @@ export class CartService implements ICartService {
           productId: productItem?._id,
         });
       }
+      cartUser.items = items;
+      cartUser.save();
     }
   } // end createCarttItem
 
-  async getReordById(userId: Schema.Types.ObjectId): Promise<(ICart & { _id: Types.ObjectId }) | null> {
+  async getReordById(userId: string): Promise<(ICart & { _id: Types.ObjectId }) | null> {
     const record = this.cardRepository.getById(userId);
     return record;
   }
+
+  async getReord(userId: string): Promise<(ICart & {_id: Types.ObjectId;}) | null> {
+    const record = this.cardRepository.getRecord(userId)
+    return record;
+  }
+
 }
