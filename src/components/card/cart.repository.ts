@@ -5,7 +5,8 @@ import { Cart } from "./cart.entity";
 import { CartModel } from './cart.model';
 import { ICartRepository } from "./cart.repository.interface";
 import { ICart } from "./cart.model.interface";
-import { Schema, Types } from 'mongoose';
+import { Schema, Types, LeanDocument } from 'mongoose';
+import {IProductModel} from '../products/products.model.inerface'
 import "reflect-metadata";
 
 
@@ -13,16 +14,42 @@ import "reflect-metadata";
 export class CartRepository implements ICartRepository {
  
 
-  async addToCart(item: Cart): Promise<void> {
+  async addToCart(userId: Schema.Types.ObjectId, productItem: LeanDocument<IProductModel & {
+    _id: Types.ObjectId;}> | null): Promise<void> {
     
-    //const createCart =  new CartModel(item.usreId, item.items);
-    const createCart =  new CartModel({userId: item.usreId, items: item.items});
+    const cartUser = await this.getRecord(userId.toString()); 
+
+    if (!cartUser) { // если еще нет корзины
+      const cartItem = new Cart(userId, 1, productItem?._id);
+      const createCart =  new CartModel({userId: cartItem.usreId, items: cartItem.items});
+      createCart.save() // сохраняем документ
+    } else {
+      const items = [...cartUser.items]; //  копия cartUser.items
+      const idx = items.findIndex(
+        (item) => item.productId.toString() == productItem?._id.toString()
+      );
+
+      if (idx >= 0) {
+        items[idx].count = items[idx].count + 1;
+      } else {
+        items.push({
+          count: 1,
+          productId: productItem?._id,
+        });
+      }
+      cartUser.items = items;
+      cartUser.save(); // сохраняем документ
+    }
+
+
+
+    //const createCart =  new CartModel({userId: item.usreId, items: item.items});
     //console.log('--createCart ', createCart);
-    try {
-      createCart.save(); // методы объекта модели
-    } catch (e) {
-      console.log('Ошибка при сохранении ',e);
-    }	
+    // try {
+    //   createCart.save(); // методы объекта модели
+    // } catch (e) {
+    //   console.log('Ошибка при сохранении ',e);
+    // }	
 
   }
 
