@@ -27,9 +27,6 @@ const cartSchema = new Schema<ICart>({
 // будем придерживаться общей схемы построения архитектуры приложения
 // к БД  будем обращаться через cart.repository.ts, 
 
-// cartSchema.methods.addToCart = function(product: Product) {
-//   const items = [...this.cart.items];
-// }
-
 // Модели создаются из схем методом mongoose.model():
-export const CartModel = model<ICart>('Cart', cartSchema); // 'User' - название модели
+// третий параметр - явное имя коллекции
+export const CartModel = model<ICart>('Cart', cartSchema, 'Cart'); // 'User' - название модели

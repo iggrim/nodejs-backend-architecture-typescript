@@ -62,5 +62,20 @@ export class CartRepository implements ICartRepository {
     const cartUser = await CartModel.findOne({userId: userId});
     return cartUser;
   }
-  
+
+  //async getAll() {
+    
+    //const cart = await CartModel.find().populate('userId', 'title price img').lean(); // методы объекта модели
+    //  Метод lean mongoose возвращает простые объекты JavaScript (POJO), а не документы Mongoose.
+   
+    //console.log('--products ', products);
+    //return cart;
+  //}
+
+
+  async getByIdobjectJs(userId: Schema.Types.ObjectId): Promise<(ICart & { _id: Types.ObjectId;}) | null> {    
+    const cartUser = await CartModel.findOne({userId: userId.toString()}).populate({path: 'items', populate:{path: 'productId'}});
+   
+    return cartUser;
+  }
 }

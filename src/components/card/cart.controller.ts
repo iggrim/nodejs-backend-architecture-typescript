@@ -38,23 +38,28 @@ export class CartController extends BaseController implements ICartController {
   }
 
   async addToCart(req: Request, res: Response, next: NextFunction) {
-    const cart = await this.cardService.createCartItem(req.user._id, req.body.id);
-
-    //console.log('---product ', product);
-
-    //if (product) await this.cardService.createCarttItem(product);
+    await this.cardService.createCartItem(req.user._id, req.body.id);
 
     res.redirect("/cart-products");
   }
 
+  computePrice(cart: any) {
+    return cart.reduce((total: number, product: any) => {
+      return total += product.productId.price * product.count
+    }, 0) 
+  }
+
   async getCart(req: Request, res: Response, next: NextFunction) {
-    // const cart = await this.cardRepository.fetchItems()
-    // console.log('---cart ', cart);
-    // res.render('cart-products', {
-    //   title_1: 'Корзина',
-    //   isCarad: true,
-    //   cart,
-    // })
+    const cart_obj_mongoose = await this.cardService.getByIdobjectJs(req.user._id);
+    const cart = JSON.parse(JSON.stringify(cart_obj_mongoose));
+
+    console.log('---cart ', cart );
+    res.render('cart-products', {
+      title_1: 'Корзина',
+      isCart: true,
+      cart,
+      price: this.computePrice(cart)
+    })
   }
 
   async deleteFromCart(req: Request, res: Response, next: NextFunction) {

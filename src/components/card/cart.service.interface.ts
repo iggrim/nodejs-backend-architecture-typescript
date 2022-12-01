@@ -1,9 +1,10 @@
-import { Schema, Types } from 'mongoose';
+import { Schema, Types, LeanDocument } from 'mongoose';
 import { ICart } from "./cart.model.interface";
 
 export interface ICartService {
   createCartItem: (userId: Schema.Types.ObjectId, productId: string) => Promise<void> ;
   getReordById: (userId: string) => Promise<(ICart & {_id: Types.ObjectId;}) | null> ;
   getReord: (userId: string) => Promise<(ICart & {_id: Types.ObjectId;}) | null> ;
-
+  //getByIdobjectJs: (userId: Schema.Types.ObjectId) => Promise<LeanDocument<ICart & { _id: Types.ObjectId;}> | null>;
+  getByIdobjectJs: (userId: Schema.Types.ObjectId) => Promise<{ productId: Schema.Types.ObjectId; count: number;}[] | undefined> ;
 }

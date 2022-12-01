@@ -2,7 +2,7 @@
 
 <div id="cart">
 
-  {{#if cart.products.length}}
+  {{#if cart.length}}
 
     <table>
       <thead>
@@ -14,9 +14,9 @@
       </thead>
 
       <tbody>
-        {{#each cart.products}}
+        {{#each cart}}
           <tr>
-            <td>{{title}}</td>
+            <td>{{productId.title}}</td>
             <td>{{count}}</td>
             <td>
               <button
@@ -29,7 +29,7 @@
       </tbody>
     </table>
 
-    <p><strong>Цена:</strong> <span class="price">{{cart.price}}</span></p>
+    <p><strong>Цена:</strong> <span class="price">{{price}}</span></p>
   {{else}}
     <p>Корзина пуста</p>
   {{/if}}
