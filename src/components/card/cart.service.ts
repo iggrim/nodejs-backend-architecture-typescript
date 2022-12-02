@@ -29,11 +29,24 @@ export class CartService implements ICartService {
     const record = this.cardRepository.getRecord(userId)
     return record;
   }
-
-  mapCartItems(cartUser: (ICart & { _id: Types.ObjectId | null;}) ) {
-    if(cartUser)
-    return cartUser.items.map(c => ({ productId: c.productId, count: c.count })) 
+  
+ 
+  mapCartItems(cartUser: LeanDocument<ICart & {_id: Types.ObjectId}> | null) {
+    
+    if(cartUser){
+      const cartUserObjJs = cartUser.items.map(c => ({ productId: c.productId, count: c.count })); 
+      return cartUserObjJs;
+    }
+    
     //return cartUser.items.map(c => console.log(' --prod ', c.productId )) 
+  }
+
+  computePrice(cartUser: { productId: Schema.Types.ObjectId; count: number;}[] | undefined): number | undefined {
+    if(cartUser){
+      return cartUser.reduce((total: number, product: any) => {
+        return total += product.productId.price * product.count
+        }, 0);
+    }   
   }
 
   async getByIdobjectJs(userId: Schema.Types.ObjectId): Promise<{ productId: Schema.Types.ObjectId; count: number;}[] | undefined> { 
@@ -42,13 +55,7 @@ export class CartService implements ICartService {
     if(cartUser){
       const products = this.mapCartItems(cartUser);
       //console.log('---products', products);  
-      /*
-      _doc существует на объекте mongoose.
-      mongooseModel.findOne возвращает саму модель, у модели есть структура 
-      (protected поля). При попытке обращения к полям объекта будут доступны
-      только публичные поля  объекта.  попробовать что-то типа JSON.stringify 
-      */
-      //products?.map(p => console.log('---products', JSON.parse(JSON.stringify(p))._doc) )
+      
       return products; 
     } 
 

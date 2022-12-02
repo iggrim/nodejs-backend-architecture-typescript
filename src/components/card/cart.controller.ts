@@ -43,22 +43,20 @@ export class CartController extends BaseController implements ICartController {
     res.redirect("/cart-products");
   }
 
-  computePrice(cart: any) {
-    return cart.reduce((total: number, product: any) => {
-      return total += product.productId.price * product.count
-    }, 0) 
-  }
 
   async getCart(req: Request, res: Response, next: NextFunction) {
-    const cart_obj_mongoose = await this.cardService.getByIdobjectJs(req.user._id);
-    const cart = JSON.parse(JSON.stringify(cart_obj_mongoose));
-
+    const cart_arr_obj = await this.cardService.getByIdobjectJs(req.user._id);
+    const price = this.cardService.computePrice(cart_arr_obj);
+    
+    const cart = JSON.parse(JSON.stringify(cart_arr_obj));
+    
+    
     console.log('---cart ', cart );
     res.render('cart-products', {
       title_1: 'Корзина',
       isCart: true,
       cart,
-      price: this.computePrice(cart)
+      price: price
     })
   }
 

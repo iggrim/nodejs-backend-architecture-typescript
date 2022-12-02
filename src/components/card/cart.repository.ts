@@ -73,8 +73,8 @@ export class CartRepository implements ICartRepository {
   //}
 
 
-  async getByIdobjectJs(userId: Schema.Types.ObjectId): Promise<(ICart & { _id: Types.ObjectId;}) | null> {    
-    const cartUser = await CartModel.findOne({userId: userId.toString()}).populate({path: 'items', populate:{path: 'productId'}});
+  async getByIdobjectJs(userId: Schema.Types.ObjectId): Promise<LeanDocument<ICart & { _id: Types.ObjectId;}> | null> {    
+    const cartUser = await CartModel.findOne({userId: userId.toString()}).populate({path: 'items', populate:{path: 'productId'}}).lean();
    
     return cartUser;
   }

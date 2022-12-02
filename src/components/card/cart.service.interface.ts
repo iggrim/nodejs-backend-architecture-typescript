@@ -7,4 +7,5 @@ export interface ICartService {
   getReord: (userId: string) => Promise<(ICart & {_id: Types.ObjectId;}) | null> ;
   //getByIdobjectJs: (userId: Schema.Types.ObjectId) => Promise<LeanDocument<ICart & { _id: Types.ObjectId;}> | null>;
   getByIdobjectJs: (userId: Schema.Types.ObjectId) => Promise<{ productId: Schema.Types.ObjectId; count: number;}[] | undefined> ;
+  computePrice: (cartUser: {  productId: Schema.Types.ObjectId;  count: number; }[] | undefined) => number | undefined;
 }
