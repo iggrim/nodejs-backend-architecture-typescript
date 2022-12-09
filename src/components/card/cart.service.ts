@@ -20,6 +20,10 @@ export class CartService implements ICartService {
     this.cardRepository.addToCart(userId, productItem );
   } 
 
+  async deleteFromCart(userId: Schema.Types.ObjectId, productId: string) { 
+    this.cardRepository.deleteFromCart(userId, productId);
+  }
+
   async getReordById(userId: string): Promise<(ICart & { _id: Types.ObjectId }) | null> {
     const record = this.cardRepository.getById(userId);
     return record;

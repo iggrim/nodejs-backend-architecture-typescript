@@ -12,8 +12,8 @@ export interface ICartRepository {
   //remove: (id: string) => Promise<void>;
   getById: (userId: string) => Promise<(ICart & {_id: Types.ObjectId;}) | null>;
   getRecord: (userId: string) => Promise<(ICart & {_id: Types.ObjectId;}) | null>;
-  //getAll: () => Promise<LeanDocument<ICart & { _id: Types.ObjectId;}>[]>;
+  
   getByIdobjectJs: (userId: Schema.Types.ObjectId) => Promise<LeanDocument<ICart & { _id: Types.ObjectId;}> | null>
-  //getByIdobjectJs: (userId: Schema.Types.ObjectId) => Promise<(ICart & { _id: Types.ObjectId;}) | null>
+  deleteFromCart: (userId: Schema.Types.ObjectId, productId: string) => Promise<void>;
 
 }

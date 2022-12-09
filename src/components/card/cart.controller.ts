@@ -61,7 +61,8 @@ export class CartController extends BaseController implements ICartController {
   }
 
   async deleteFromCart(req: Request, res: Response, next: NextFunction) {
-    //const cart = await this.cardRepository.remove(req.params.id);
+    await this.cardService.deleteFromCart(req.user._id, req.params.id);
+    
     //res.status(200).json(cart);
   }
 }

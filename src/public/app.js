@@ -67,7 +67,8 @@ if ($cart) {
     if (event.target.classList.contains("js-remove")) {
       const id = event.target.dataset.id;
 
-      fetch("/products-cart/remove/" + id, {
+      //console.log('--id from app.js ', id)
+      fetch("/cart-products/remove/" + id, {
         method: "delete",
       })
         .then((res) => res.json())
