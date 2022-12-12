@@ -20,8 +20,19 @@ export class CartService implements ICartService {
     this.cardRepository.addToCart(userId, productItem );
   } 
 
-  async deleteFromCart(userId: Schema.Types.ObjectId, productId: string) { 
-    this.cardRepository.deleteFromCart(userId, productId);
+  //async deleteFromCart(userId: Schema.Types.ObjectId, productId: string) { 
+  async deleteFromCart(userId: Schema.Types.ObjectId, productId: string): Promise<{ productId: Schema.Types.ObjectId;  count: number; }[] | undefined> { 
+    await this.cardRepository.deleteFromCart(userId, productId);
+    
+    // if(!cartUser){
+    //   return ;
+    // } else {
+    //   const cartUserItems = cartUser.items.map(c => ({ productId: c.productId, count: c.count })); 
+    //   return cartUserItems;
+    // }
+    const cartUser = await this.getByIdobjectJs(userId);
+
+    return cartUser;
   }
 
   async getReordById(userId: string): Promise<(ICart & { _id: Types.ObjectId }) | null> {
@@ -54,6 +65,7 @@ export class CartService implements ICartService {
   }
 
   async getByIdobjectJs(userId: Schema.Types.ObjectId): Promise<{ productId: Schema.Types.ObjectId; count: number;}[] | undefined> { 
+    //
     const cartUser = await this.cardRepository.getByIdobjectJs(userId);
 
     if(cartUser){
@@ -61,9 +73,6 @@ export class CartService implements ICartService {
       //console.log('---products', products);  
       
       return products; 
-    } 
-
-    
+    }    
   }
-
 }

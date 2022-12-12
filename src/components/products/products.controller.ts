@@ -97,7 +97,7 @@ export class ProductsController
     const { id } = req.body;
     delete req.body.id;
 
-    console.log("----id", id);
+    //console.log("----id", id);
     if (id)  await this.productsService.updateRecord(id, req.body);
     res.redirect("/products");
   }

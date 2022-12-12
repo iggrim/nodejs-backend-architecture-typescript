@@ -45,13 +45,14 @@ export class CartController extends BaseController implements ICartController {
 
 
   async getCart(req: Request, res: Response, next: NextFunction) {
+    // после сохранения корзины как экземпляра Mongoose Document
+    // получаем корзину как объект JS, а не документ Mongoose (lean())
     const cart_arr_obj = await this.cardService.getByIdobjectJs(req.user._id);
     const price = this.cardService.computePrice(cart_arr_obj);
     
     const cart = JSON.parse(JSON.stringify(cart_arr_obj));
-    
-    
-    console.log('---cart ', cart );
+      
+    //console.log('---cart ', cart );
     res.render('cart-products', {
       title_1: 'Корзина',
       isCart: true,
@@ -61,8 +62,9 @@ export class CartController extends BaseController implements ICartController {
   }
 
   async deleteFromCart(req: Request, res: Response, next: NextFunction) {
-    await this.cardService.deleteFromCart(req.user._id, req.params.id);
-    
-    //res.status(200).json(cart);
+    const cartUserItems = await this.cardService.deleteFromCart(req.user._id, req.params.id);
+    const cart = JSON.parse(JSON.stringify(cartUserItems));
+
+    res.status(200).json(cart);
   }
 }

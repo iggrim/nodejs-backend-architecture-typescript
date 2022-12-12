@@ -26,7 +26,7 @@ export class CartRepository implements ICartRepository {
     } else {
       const items = [...cartUser.items]; //  копия cartUser.items
       const idx = items.findIndex(
-        (item) => item.productId.toString() == productItem?._id.toString()
+        (item) => item.productId.toString() === productItem?._id.toString()
       );
 
       if (idx >= 0) {
@@ -40,16 +40,6 @@ export class CartRepository implements ICartRepository {
       cartUser.items = items;
       cartUser.save(); // сохраняем документ
     }
-
-
-
-    //const createCart =  new CartModel({userId: item.usreId, items: item.items});
-    //console.log('--createCart ', createCart);
-    // try {
-    //   createCart.save(); // методы объекта модели
-    // } catch (e) {
-    //   console.log('Ошибка при сохранении ',e);
-    // }	
 
   }
 
@@ -70,9 +60,29 @@ export class CartRepository implements ICartRepository {
     return cartUser;
   }
 
-  async deleteFromCart(userId: Schema.Types.ObjectId, productId: string): Promise<void>{
-    //await CartModel.deleteOne(productId);
-    console.log('---userId ', userId);
-    console.log('---productId ', productId);
+  async deleteFromCart(userId: Schema.Types.ObjectId, productId: string): Promise<(ICart & { _id: Types.ObjectId;}) | null >{   
+    //console.log('---userId ', userId);
+    
+   // const cartUser = await this.getRecord(userId.toString());
+    const cartUser = await CartModel.findOne({userId: userId.toString()});
+   
+    if( !cartUser ) {
+      return null;   
+    } else{
+      let items = [...cartUser.items]; //  копия cartUser.items
+      const idx = items.findIndex(
+        (item) => item.productId.toString() === productId.toString()
+      );
+
+      if (items[idx].count === 1) {
+        items = items.filter((item) => item.productId.toString() !== productId.toString())
+      } else {
+        items[idx].count--
+      }
+
+      cartUser.items = items; // items- массив
+      return cartUser.save(); // сохраняем документ 
+    }
+
   }
 }

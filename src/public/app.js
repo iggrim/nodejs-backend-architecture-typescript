@@ -72,13 +72,13 @@ if ($cart) {
         method: "delete",
       })
         .then((res) => res.json())
-        .then((cart) => {
-          if (cart.products.length) {
-            const html = cart.products
+        .then((cart) => { console.log('---cart ', cart)
+          if (cart.length) {
+            const html = cart
               .map((c) => {
                 return `
               <tr>
-                <td>${c.title}</td>
+                <td>${c.productId.title}</td>
                 <td>${c.count}</td>
                 <td>
                   <button class="btn btm-small js-remove" data-id="${c.id}">Удалить</button>
