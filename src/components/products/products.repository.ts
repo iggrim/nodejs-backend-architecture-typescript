@@ -18,10 +18,12 @@ export class ProductsRepository implements IProductsRepository {
     await ProductModel.findByIdAndUpdate(id, product)
   }
 
-	//async save(product: Product): Promise<void> {
-	async save({title, price, img, userId}: Product): Promise<void> {     
-    const createProduct = new ProductModel({title, price, img, userId});
-    console.log('--createProduct ', createProduct);
+	
+	async save(Product: Product): Promise<void> {  
+	//async save({title, price, img, userId}: Product): Promise<void> {  
+    //const createProduct = new ProductModel({title, price, img, userId});
+    const createProduct = new ProductModel(Product);
+ 
     try {
       createProduct.save(); // методы объекта модели
     } catch (e) {

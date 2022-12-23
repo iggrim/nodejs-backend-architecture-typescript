@@ -6,11 +6,10 @@ export class Cart {
   constructor(
     private readonly _userId: Schema.Types.ObjectId,
     private readonly _count: number,
-    private readonly _productId: Schema.Types.ObjectId,
-    
+    private readonly _productId: Schema.Types.ObjectId, 
   ) 
   {
-    // this._userId = _userId
+    // конструируем _items
     this._items = [{
       count: this._count,
       productId: this._productId,

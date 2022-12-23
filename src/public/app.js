@@ -67,12 +67,13 @@ if ($cart) {
     if (event.target.classList.contains("js-remove")) {
       const id = event.target.dataset.id;
 
-      //console.log('--id from app.js ', id)
+      console.log('--id from app.js ', id);
+
       fetch("/cart-products/remove/" + id, {
         method: "delete",
       })
         .then((res) => res.json())
-        .then((cart) => { console.log('---cart ', cart)
+        .then((cart) => { console.log('---cart  from app.js', cart)
           if (cart.length) {
             const html = cart
               .map((c) => {
@@ -81,7 +82,7 @@ if ($cart) {
                 <td>${c.productId.title}</td>
                 <td>${c.count}</td>
                 <td>
-                  <button class="btn btm-small js-remove" data-id="${c.id}">Удалить</button>
+                  <button class="btn btm-small js-remove" data-id="${c.productId._id}">Удалить</button>
                 </td>
               </tr>
               `;

@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import path from "path";
+//import path from "path";
 import { inject, injectable } from "inversify";
 import { ILogger } from "../logger/logger.interface";
 import { TYPES } from "../../types";
 import { BaseController } from "../common/base.controller";
 import { ICartController } from "./cart.controller.interface";
-import { ProductsRepository } from "../products/products.repository";
-import { CartRepository } from "./cart.repository";
+//import { ProductsRepository } from "../products/products.repository";
+//import { CartRepository } from "./cart.repository";
 import { CartService } from "./cart.service";
 import "reflect-metadata";
 
@@ -21,19 +21,15 @@ export class CartController extends BaseController implements ICartController {
    */
   constructor(
     @inject(TYPES.ILogger) private loggerService: ILogger,
-    @inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository,
+    //@inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository,
     @inject(TYPES.CartService) private cardService: CartService,
-    @inject(TYPES.CartRepository) private cardRepository: CartRepository
+    //@inject(TYPES.CartRepository) private cardRepository: CartRepository
   ) {
     super(loggerService);
     this.bindRoutes([
       { path: "/cart-products", method: "get", func: this.getCart },
       { path: "/cart-products/add", method: "post", func: this.addToCart },
-      {
-        path: "/cart-products/remove/:id",
-        method: "delete",
-        func: this.deleteFromCart,
-      },
+      { path: "/cart-products/remove/:id", method: "delete",func: this.deleteFromCart },
     ]);
   }
 
@@ -65,6 +61,9 @@ export class CartController extends BaseController implements ICartController {
     const cartUserItems = await this.cardService.deleteFromCart(req.user._id, req.params.id);
     const cart = JSON.parse(JSON.stringify(cartUserItems));
 
+    //console.log('---cart ', cart);
+    //  сюда в объект добавить cart  и  price
     res.status(200).json(cart);
   }
+
 }

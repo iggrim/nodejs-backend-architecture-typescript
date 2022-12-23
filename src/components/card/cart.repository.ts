@@ -61,18 +61,20 @@ export class CartRepository implements ICartRepository {
   }
 
   async deleteFromCart(userId: Schema.Types.ObjectId, productId: string): Promise<(ICart & { _id: Types.ObjectId;}) | null >{   
-    //console.log('---userId ', userId);
     
    // const cartUser = await this.getRecord(userId.toString());
     const cartUser = await CartModel.findOne({userId: userId.toString()});
-   
+       
     if( !cartUser ) {
       return null;   
-    } else{
+    } else {
       let items = [...cartUser.items]; //  копия cartUser.items
       const idx = items.findIndex(
         (item) => item.productId.toString() === productId.toString()
       );
+
+      //console.log('---items ', items);
+      //console.log('---productId ', productId); // undefined
 
       if (items[idx].count === 1) {
         items = items.filter((item) => item.productId.toString() !== productId.toString())

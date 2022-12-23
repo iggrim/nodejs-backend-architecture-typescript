@@ -2,6 +2,8 @@ export class CartDto {
   userId: string;
   count: number;
   productId: string;
-  
-  //count: number;
+
+  /*
+  Будем маппить DTO в Entity и наоборот
+  */
 }
