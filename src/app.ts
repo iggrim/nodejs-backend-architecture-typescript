@@ -4,7 +4,8 @@ import "reflect-metadata";
 import { TYPES } from "./types";
 //import { Server } from 'http';
 import { ProductsController } from "./components/products/products.controller";
-import { CartController } from "./components/card/cart.controller";
+import { CartController } from "./components/cart/cart.controller";
+import { OrderController } from "./components/orders/order.controller";
 import * as path from "path";
 import { create, ExpressHandlebars } from "express-handlebars";
 import { ILogger } from "./components/logger/logger.interface";
@@ -13,13 +14,11 @@ import { json } from "body-parser";
 import mongoose from "mongoose";
 import { Mongoose } from "mongoose";
 import { AuthMiddleware } from "./components/common/auth.middleware";
-import { Catch404Midleware } from './components/common/404.midlware';
+import { Catch404Midleware } from "./components/common/404.midlware";
 //import { IUserService} from './components/users/users.service.interface';
-import { UserService } from './components/users/users.service';
-
+import { UserService } from "./components/users/users.service";
 
 import "reflect-metadata";
-
 
 @injectable()
 export class App {
@@ -33,8 +32,8 @@ export class App {
     @inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
     @inject(TYPES.ProductsController) private productsController: ProductsController,
     @inject(TYPES.CartController) private cartController: CartController,
-    @inject(TYPES.UserService) private userService: UserService,
-
+    @inject(TYPES.OrderController) private orderController: OrderController,
+    @inject(TYPES.UserService) private userService: UserService
   ) {
     this.app = express();
     this.port = 3000;
@@ -57,21 +56,23 @@ export class App {
     this.app.use(json());
     const authMiddleware = new AuthMiddleware();
     this.app.use(authMiddleware.execute.bind(authMiddleware));
-    
   }
 
   useRotes() {
     this.app.use("/", this.productsController.router); // .router - это геттер в base.controller.ts
-    this.app.use("/", this.cartController.router); // .router - это геттер в base.controller.ts
-    //const catch404Midleware = new Catch404Midleware();
+    
+    // объект cartController наследует от base.controller
+    // .router - это геттер в base.controller.ts
+    this.app.use("/", this.cartController.router); //const catch404Midleware = new Catch404Midleware();
     //this.app.use(catch404Midleware.execute.bind(Catch404Midleware));
+  
+    this.app.use("/", this.orderController.router);
   }
 
   useExeptionFilters(): void {
     this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter));
   }
 
- 
   public async init() {
     this.useMiddleware();
     this.useRotes();
@@ -83,10 +84,11 @@ export class App {
     try {
       await this.mongoose.connect(DB_URI);
       this.logger.log("Mongodb connected");
-      this.userService.createUser({ // временно пока нет авторизации
-        email: 'harry@mail.ru',
-        name: 'Harry',    
-      })
+      this.userService.createUser({
+        // временно пока нет авторизации
+        email: "harry@mail.ru",
+        name: "Harry",
+      });
       this.app.listen(this.port);
       this.logger.log(`Сервер запущен на http://localhost:${this.port}`);
     } catch (e) {
@@ -103,6 +105,5 @@ export class App {
     //   })
     //   await user.save() // сохранякм документ
     // }
-
   }
 }

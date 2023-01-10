@@ -11,18 +11,18 @@ import { ProductsService } from "./components/products/products.service";
 import { IProductsService } from "./components/products/products.service.interface";
 import { ProductsRepository } from "./components/products/products.repository";
 import { IProductsRepository } from "./components/products/products.repository.interface";
-import { CartRepository } from "./components/card/cart.repository";
-import { ICartRepository } from "./components/card/cart.repository.interface";
-import { ICartController } from "./components/card/cart.controller.interface";
-import { CartController } from "./components/card/cart.controller";
-import { CartService } from "./components/card/cart.service";
-import { ICartService } from "./components/card/cart.service.interface";
-import { IUserService} from './components/users/users.service.interface';
-import { UserService } from './components/users/users.service';
-import { IUsersRepository } from './components/users/users.repository.interface';
-import { UsersRepository } from './components/users/users.repository';
-
-
+import { CartRepository } from "./components/cart/cart.repository";
+import { ICartRepository } from "./components/cart/cart.repository.interface";
+import { ICartController } from "./components/cart/cart.controller.interface";
+import { CartController } from "./components/cart/cart.controller";
+import { CartService } from "./components/cart/cart.service";
+import { ICartService } from "./components/cart/cart.service.interface";
+import { IUserService } from "./components/users/users.service.interface";
+import { UserService } from "./components/users/users.service";
+import { IUsersRepository } from "./components/users/users.repository.interface";
+import { UsersRepository } from "./components/users/users.repository";
+import { IOrderController } from './components/orders/order.controller.interface';
+import { OrderController} from './components/orders/order.controller';
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
@@ -35,8 +35,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<ICartService>(TYPES.CartService).to(CartService);
   bind<IUserService>(TYPES.UserService).to(UserService);
   bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inSingletonScope();
-  
-
+  bind<IOrderController>(TYPES.OrderController).to(OrderController);
   bind<App>(TYPES.Application).to(App);
 });
 

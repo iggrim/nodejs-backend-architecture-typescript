@@ -11,6 +11,7 @@ export abstract class BaseController {
 	private readonly _router: Router;
 
 	constructor(private logger: ILogger) {
+		// создаем объект _router 
 		this._router = Router();
 	}
 
@@ -35,6 +36,10 @@ export abstract class BaseController {
 		for (const route of routes) {
 			this.logger.log(`[${route.method}] ${route.path}`); // смотрим, что забиндили
 			const handler = route.func.bind(this);
+
+			// передаем в this.router маршруты
+			// вызов метода объекта,не через точку, а через [ ]
+			// т.е . напр. this.router.post('/login', (req, res) => {res.send('login'); })
 			this.router[route.method](route.path, handler);
 		}
 	}
