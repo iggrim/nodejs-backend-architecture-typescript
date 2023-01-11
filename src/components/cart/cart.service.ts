@@ -21,12 +21,7 @@ export class CartService implements ICartService {
   }
 
   //async deleteFromCart(userId: Schema.Types.ObjectId, productId: string) {
-  async deleteFromCart(
-    userId: Schema.Types.ObjectId,
-    productId: string
-  ): Promise<
-    { productId: Schema.Types.ObjectId; count: number }[] | undefined
-  > {
+  async deleteFromCart( userId: Schema.Types.ObjectId,  productId: string): Promise<{ productId: Schema.Types.ObjectId; count: number }[] | undefined > {
     await this.cartRepository.deleteFromCart(userId, productId);
 
     // if(!cartUser){
@@ -40,16 +35,12 @@ export class CartService implements ICartService {
     return cartUser;
   }
 
-  async getReordById(
-    userId: string
-  ): Promise<(ICart & { _id: Types.ObjectId }) | null> {
+  async getReordById( userId: string ): Promise<(ICart & { _id: Types.ObjectId }) | null> {
     const record = this.cartRepository.getById(userId);
     return record;
   }
 
-  async getReord(
-    userId: string
-  ): Promise<(ICart & { _id: Types.ObjectId }) | null> {
+  async getReord( userId: string ): Promise<(ICart & { _id: Types.ObjectId }) | null> {
     const record = this.cartRepository.getRecord(userId);
     return record;
   }

@@ -13,7 +13,7 @@ import "reflect-metadata";
 @injectable()
 export class CartRepository implements ICartRepository {
  
-
+  // надо вынести логику в CartService-----------------!!!!!!!!!!!!
   async addToCart(userId: Schema.Types.ObjectId, productItem: LeanDocument<IProductModel & {
     _id: Types.ObjectId;}> | null): Promise<void> {
     

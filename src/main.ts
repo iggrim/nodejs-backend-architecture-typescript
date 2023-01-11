@@ -23,6 +23,11 @@ import { IUsersRepository } from "./components/users/users.repository.interface"
 import { UsersRepository } from "./components/users/users.repository";
 import { IOrderController } from './components/orders/order.controller.interface';
 import { OrderController} from './components/orders/order.controller';
+import { IOrderService } from './components/orders/order.service.interface';
+import { OrderService } from './components/orders/order.service';
+import { IOrderRepository } from './components/orders/order.repository.interface';
+import { OrderRepository } from './components/orders/order.repository';
+
 
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
@@ -36,6 +41,9 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<IUserService>(TYPES.UserService).to(UserService);
   bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inSingletonScope();
   bind<IOrderController>(TYPES.OrderController).to(OrderController);
+  bind<IOrderService>(TYPES.OrderService).to(OrderService);
+  bind<IOrderRepository>(TYPES.OrderRepository).to(OrderRepository);
+
   bind<App>(TYPES.Application).to(App);
 });
 

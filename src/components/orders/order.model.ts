@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { IOrder } from './order.model.interface'
+import { IOrderModel } from './order.model.interface'
 
-const orderSchema = new Schema<IOrder>({
+const orderSchema = new Schema<IOrderModel>({
   products: [
     {
       product: {
@@ -28,4 +28,4 @@ const orderSchema = new Schema<IOrder>({
   }
 })
 
-export const ModelSchema = model<IOrder>('Order', orderSchema)
+export const OrderModel = model<IOrderModel>('Order', orderSchema)

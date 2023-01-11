@@ -11,7 +11,7 @@ import "reflect-metadata";
 export class OrderController extends BaseController implements IOrderController {
   constructor(
     @inject(TYPES.ILogger) private loggerService: ILogger,
-    //@inject(TYPES.OrderService) private orderService: OrderService,
+    @inject(TYPES.OrderService) private orderService: OrderService,
   ) {
     super(loggerService);
     this.bindRoutes([  // bindRoutes из BaseController
@@ -21,8 +21,9 @@ export class OrderController extends BaseController implements IOrderController 
   }
 
   async addToOrder(req: Request, res: Response, next: NextFunction){
-    console.log('---req.body.cart ', req.body.cart);
-    //await this.orderService.createOrder(req.user._id, req.body);
+    console.log('---req.user ', req.user);
+    //await this.orderService.createOrder(req.user._id);
+    await this.orderService.createOrder(req.user);
 
     //res.redirect("/orders");
   }

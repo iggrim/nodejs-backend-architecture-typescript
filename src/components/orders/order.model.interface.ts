@@ -1,7 +1,7 @@
 import { Schema, Document } from 'mongoose';
 
 
-export interface IOrder extends Document {
+export interface IOrderModel extends Document {
 
   products: Array<{product: Object, count: number}>;
   
