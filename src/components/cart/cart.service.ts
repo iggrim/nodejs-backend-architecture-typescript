@@ -21,7 +21,12 @@ export class CartService implements ICartService {
   }
 
   //async deleteFromCart(userId: Schema.Types.ObjectId, productId: string) {
-  async deleteFromCart( userId: Schema.Types.ObjectId,  productId: string): Promise<{ productId: Schema.Types.ObjectId; count: number }[] | undefined > {
+  async deleteFromCart(
+    userId: Schema.Types.ObjectId,
+    productId: string
+  ): Promise<
+    { productId: Schema.Types.ObjectId; count: number }[] | undefined
+  > {
     await this.cartRepository.deleteFromCart(userId, productId);
 
     // if(!cartUser){
@@ -30,17 +35,21 @@ export class CartService implements ICartService {
     //   const cartUserItems = cartUser.items.map(c => ({ productId: c.productId, count: c.count }));
     //   return cartUserItems;
     // }
-    const cartUser = await this.getByIdobjectJs(userId);
+    const cartUser = await this.getByIdObjectJs(userId);
 
     return cartUser;
   }
 
-  async getReordById( userId: string ): Promise<(ICart & { _id: Types.ObjectId }) | null> {
+  async getReordById(
+    userId: string
+  ): Promise<(ICart & { _id: Types.ObjectId }) | null> {
     const record = this.cartRepository.getById(userId);
     return record;
   }
 
-  async getReord( userId: string ): Promise<(ICart & { _id: Types.ObjectId }) | null> {
+  async getReord(
+    userId: string
+  ): Promise<(ICart & { _id: Types.ObjectId }) | null> {
     const record = this.cartRepository.getRecord(userId);
     return record;
   }
@@ -67,13 +76,13 @@ export class CartService implements ICartService {
     }
   }
 
-  async getByIdobjectJs(
+  async getByIdObjectJs(
     userId: Schema.Types.ObjectId
   ): Promise<
     { productId: Schema.Types.ObjectId; count: number }[] | undefined
   > {
     //
-    const cartUser = await this.cartRepository.getByIdobjectJs(userId);
+    const cartUser = await this.cartRepository.getByIdObjectJs(userId);
 
     if (cartUser) {
       const products = this.mapCartItems(cartUser);

@@ -22,9 +22,8 @@ export class CartController extends BaseController implements ICartController {
   constructor(
     @inject(TYPES.ILogger) private loggerService: ILogger,
     //@inject(TYPES.ProductsRepository) private productsRepository: ProductsRepository,
-    @inject(TYPES.CartService) private cartService: CartService
-  ) //@inject(TYPES.CartRepository) private cartRepository: CartRepository
-  {
+    @inject(TYPES.CartService) private cartService: CartService //@inject(TYPES.CartRepository) private cartRepository: CartRepository
+  ) {
     super(loggerService);
     this.bindRoutes([
       { path: "/cart-products", method: "get", func: this.getCart },
@@ -46,7 +45,7 @@ export class CartController extends BaseController implements ICartController {
   async getCart(req: Request, res: Response, next: NextFunction) {
     // после сохранения корзины как экземпляра Mongoose Document
     // получаем корзину как объект JS, а не документ Mongoose (lean())
-    const cart_arr_obj = await this.cartService.getByIdobjectJs(req.user._id);
+    const cart_arr_obj = await this.cartService.getByIdObjectJs(req.user._id);
     const price = this.cartService.computePrice(cart_arr_obj);
 
     const cart = JSON.parse(JSON.stringify(cart_arr_obj));

@@ -5,6 +5,7 @@ import { TYPES } from "../../types";
 import { BaseController } from "../common/base.controller";
 import { IOrderController } from "./order.controller.interface";
 import { OrderService } from './order.service'
+
 import "reflect-metadata";
 
 @injectable()
@@ -21,9 +22,9 @@ export class OrderController extends BaseController implements IOrderController 
   }
 
   async addToOrder(req: Request, res: Response, next: NextFunction){
-    console.log('---req.user ', req.user);
-    //await this.orderService.createOrder(req.user._id);
-    await this.orderService.createOrder(req.user);
+    //console.log('---req.user ', req.user);
+    await this.orderService.createOrder(req.user._id);
+    //await this.orderService.createOrder(req.user);
 
     //res.redirect("/orders");
   }

@@ -1,9 +1,11 @@
 import { IOrderService } from "./order.service.interface";
-import { Schema, Types, LeanDocument } from "mongoose";
+import { Schema, Types, LeanDocument, Document } from "mongoose";
 import { TYPES } from "../../types";
 import { inject, injectable } from "inversify";
 import { OrderRepository } from "./order.repository";
 import { CartRepository } from "../cart/cart.repository";
+import { IUser } from "../users/user.model.interface";
+
 
 
 //import {} from './order.repository'
@@ -16,14 +18,16 @@ export class OrderService implements IOrderService {
 
   ) {}
 
-  //async createOrder(userId: Schema.Types.ObjectId) {
-  async createOrder(user: any) {
-    //const orderUser = await this.orderRepository.getRecord(userId.toString());
-    const orderUser = await this.orderRepository.getRecord(user._id.toString());
+  async createOrder(userId: Schema.Types.ObjectId) {
+
+    const orderUser = await this.orderRepository.getRecord(userId.toString());
+    //const orderUser = await this.orderRepository.getRecord(user._id.toString());
     if( !orderUser) {
       //const cartUser = await this.cartRepository.getRecord(userId.toString());
-      const cartUser = await this.cartRepository.getRecord(user._id.toString());
-      //console.log('---cartUser ', cartUser);
+      //const cartUser = await this.cartRepository.getRecord(user._id.toString());
+      const cartUser = await this.cartRepository.getByIdObjectJs(userId);
+      
+      console.log('---cartUser ', cartUser);
 
       const products = cartUser?.items.map(i => ({ // создаем массив объектов(товаров)
         count: i.count,
