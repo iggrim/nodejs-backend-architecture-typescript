@@ -5,7 +5,9 @@ import { IOrderModel } from "./order.model.interface";
 export interface IOrderRepository {
   // addToOrder: (userId: Schema.Types.ObjectId, productItem: LeanDocument<IProductModel & {
   //   _id: Types.ObjectId;}> | null) => Promise<void>;
-  addToOrder: (userId: Schema.Types.ObjectId) => Promise<void>;
+  //addToOrder: (userId: Schema.Types.ObjectId) => Promise<void>;
+  addToOrder: (orderBlank: {}) => Promise<void>;
+
   getRecord: (
     userId: string
   ) => Promise<(IOrderModel & { _id: Types.ObjectId }) | null>;

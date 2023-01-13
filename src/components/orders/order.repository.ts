@@ -9,8 +9,10 @@ import { IOrderModel } from "./order.model.interface";
 @injectable()
 export class OrderRepository implements IOrderRepository {
 
-  async addToOrder (userId: Schema.Types.ObjectId){
-    
+  //async addToOrder (userId: Schema.Types.ObjectId){
+  async addToOrder (orderBlank: {}){
+      const order = new OrderModel(orderBlank);
+      await order.save();
   }
 
   async getRecord(userId: string): Promise<(IOrderModel & {_id: Types.ObjectId;}) | null> {

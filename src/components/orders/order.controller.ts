@@ -26,7 +26,7 @@ export class OrderController extends BaseController implements IOrderController 
     await this.orderService.createOrder(req.user._id);
     //await this.orderService.createOrder(req.user);
 
-    //res.redirect("/orders");
+    res.redirect("/orders");
   }
   
   async getOrder(req: Request, res: Response, next: NextFunction){

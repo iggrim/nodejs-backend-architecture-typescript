@@ -4,8 +4,6 @@ import { TYPES } from "../../types";
 import { inject, injectable } from "inversify";
 import { OrderRepository } from "./order.repository";
 import { CartRepository } from "../cart/cart.repository";
-import { IUser } from "../users/user.model.interface";
-
 
 
 //import {} from './order.repository'
@@ -21,19 +19,27 @@ export class OrderService implements IOrderService {
   async createOrder(userId: Schema.Types.ObjectId) {
 
     const orderUser = await this.orderRepository.getRecord(userId.toString());
-    //const orderUser = await this.orderRepository.getRecord(user._id.toString());
+    
     if( !orderUser) {
-      //const cartUser = await this.cartRepository.getRecord(userId.toString());
-      //const cartUser = await this.cartRepository.getRecord(user._id.toString());
       const cartUser = await this.cartRepository.getByIdObjectJs(userId);
-      
-      console.log('---cartUser ', cartUser);
-
-      const products = cartUser?.items.map(i => ({ // создаем массив объектов(товаров)
+          
+      //console.log('---cartUser ', cartUser);
+      // создаем массив объектов(товаров)
+      const products = cartUser?.items.map(i => ({ 
         count: i.count,
         product: {...i.productId},
       }))
-      //await this.orderRepository.addToOrder
+      
+      // const user = JSON.parse(JSON.stringify(cartUser?.userId));
+
+      const orderBlank = {
+        user: {userId: cartUser?.userId},
+        products: products,        
+      }
+
+      //console.log('---user ', user);
+
+      await this.orderRepository.addToOrder(orderBlank)
     } else {
 
     }
