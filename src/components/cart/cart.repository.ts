@@ -37,9 +37,11 @@ export class CartRepository implements ICartRepository {
       );
 
       if (idx >= 0) {
+        // увеличиваем count для одного конкретного товара
         items[idx].count = items[idx].count + 1;
       } else {
-        items.push({
+        
+        items.push({ 
           count: 1,
           productId: productItem?._id,
         });
@@ -47,6 +49,10 @@ export class CartRepository implements ICartRepository {
       cartUser.items = items;
       cartUser.save(); // сохраняем документ
     }
+  }
+
+  async deleteCart(userId: Schema.Types.ObjectId){
+    await CartModel.deleteOne({ userId: userId });
   }
 
   async getById(

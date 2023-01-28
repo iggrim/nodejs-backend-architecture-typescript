@@ -46,10 +46,15 @@ export class CartController extends BaseController implements ICartController {
     // после сохранения корзины как экземпляра Mongoose Document
     // получаем корзину как объект JS, а не документ Mongoose (lean())
     const cart_arr_obj = await this.cartService.getByIdObjectJs(req.user._id);
-    const price = this.cartService.computePrice(cart_arr_obj);
+    
+    let price;
+    let cart = null;
 
-    const cart = JSON.parse(JSON.stringify(cart_arr_obj));
-
+    if(cart_arr_obj?.length){
+      price = this.cartService.computePrice(cart_arr_obj);
+      cart = JSON.parse(JSON.stringify(cart_arr_obj));
+    }
+    
     //console.log('---cart ', cart );
     res.render("cart-products", {
       title_1: "Корзина",

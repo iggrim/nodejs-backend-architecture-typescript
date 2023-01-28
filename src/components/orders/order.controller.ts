@@ -16,7 +16,7 @@ export class OrderController extends BaseController implements IOrderController 
   ) {
     super(loggerService);
     this.bindRoutes([  // bindRoutes из BaseController
-      { path: "/orders", method: "get",func: this.getOrder },
+      { path: "/orders", method: "get",func: this.getOrders },
       { path: "/orders", method: "post",func: this.addToOrder },
     ]);
   }
@@ -24,13 +24,15 @@ export class OrderController extends BaseController implements IOrderController 
   async addToOrder(req: Request, res: Response, next: NextFunction){
     //console.log('---req.user ', req.user);
     await this.orderService.createOrder(req.user._id);
+    
     //await this.orderService.createOrder(req.user);
 
     res.redirect("/orders");
   }
   
-  async getOrder(req: Request, res: Response, next: NextFunction){
-    console.log('--- getOrder');
+  async getOrders(req: Request, res: Response, next: NextFunction){
+    const orders = await this.orderService.getRecords(req.user._id);
+    console.log('--- getOrders orders ', orders);
     // добавить запрос на получение ордера
 
     res.render('orders', { // orders-название страницы orders.hbs

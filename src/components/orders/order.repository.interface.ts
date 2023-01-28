@@ -8,9 +8,14 @@ export interface IOrderRepository {
   //addToOrder: (userId: Schema.Types.ObjectId) => Promise<void>;
   addToOrder: (orderBlank: {}) => Promise<void>;
 
-  getRecord: (
+  // getRecord: (
+  //   userId: string
+  // ) => Promise<(IOrderModel & { _id: Types.ObjectId }) | null>;
+  
+  getRecords: (
     userId: string
-  ) => Promise<(IOrderModel & { _id: Types.ObjectId }) | null>;
+  ) => Promise<(LeanDocument<IOrderModel & { _id: Types.ObjectId; }>[])>;
+
 
   //remove: (id: string) => Promise<void>;
   // getById: (userId: string) => Promise<(ICart & {_id: Types.ObjectId;}) | null>;

@@ -12,11 +12,12 @@ export class OrderRepository implements IOrderRepository {
   //async addToOrder (userId: Schema.Types.ObjectId){
   async addToOrder (orderBlank: {}){
       const order = new OrderModel(orderBlank);
-      await order.save();
+      await order.save(); 
+      // новый ордер(отдедьный объект) будет добавлен в БД согласно модели
   }
 
-  async getRecord(userId: string): Promise<(IOrderModel & {_id: Types.ObjectId;}) | null> {
-    const orderUser = await OrderModel.findOne({"user.userId": userId});   
-    return orderUser;  
+  async getRecords(userId: string): Promise<(LeanDocument<IOrderModel & { _id: Types.ObjectId; }>[])> {
+    const ordersUser = await OrderModel.find({"user.userId": userId});   
+    return ordersUser;  
   }
 }
