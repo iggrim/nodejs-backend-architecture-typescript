@@ -17,7 +17,7 @@ export class OrderRepository implements IOrderRepository {
   }
 
   async getRecords(userId: string): Promise<(LeanDocument<IOrderModel & { _id: Types.ObjectId; }>[])> {
-    const ordersUser = await OrderModel.find({"user.userId": userId});   
+    const ordersUser = await OrderModel.find({"user.userId": userId}).populate('user.userId').lean();   
     return ordersUser;  
   }
 }
