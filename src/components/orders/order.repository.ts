@@ -13,7 +13,7 @@ export class OrderRepository implements IOrderRepository {
   async addToOrder (orderBlank: {}){
       const order = new OrderModel(orderBlank);
       await order.save(); 
-      // новый ордер(отдедьный объект) будет добавлен в БД согласно модели
+      // новый ордер(отдельный объект) будет добавлен в БД согласно модели
   }
 
   async getRecords(userId: string): Promise<(LeanDocument<IOrderModel & { _id: Types.ObjectId; }>[])> {
