@@ -20,12 +20,23 @@ export class ProductsRepository implements IProductsRepository {
 
 	
 	async save(Product: Product): Promise<void> {  
-	//async save({title, price, img, userId}: Product): Promise<void> {  
+	  //async save({title, price, img, userId}: Product): Promise<void> {  
     //const createProduct = new ProductModel({title, price, img, userId});
-    const createProduct = new ProductModel(Product);
+    console.log('-------Репозиторий save ', Product)
+    
+    //const createProduct = new ProductModel({title, price, img, userId}: Product);
  
+    // объект без данных, в createProduct только { _id: new ObjectId("6442d3c19d42c2fa76f3ec07") }
+    // const createProduct = new ProductModel(Product); // ---1---
+
+    // так работает
+    const createProduct = new ProductModel({title: Product.title, price: Product.price, img: Product.img, userId: Product.userId});
+
     try {
-      createProduct.save(); // методы объекта модели
+   
+      // здесь возникала ошибка , нет данных в createProduct ---1---
+      createProduct.save(); // save метод объекта модели 
+    
     } catch (e) {
       console.log('Ошибка при сохранении ',e);
     }	

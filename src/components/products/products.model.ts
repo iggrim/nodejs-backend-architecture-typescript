@@ -24,3 +24,4 @@ const ProductSchema: Schema = new Schema<IProductModel>({
 
 
 export const ProductModel = model<IProductModel>('Product', ProductSchema);
+
