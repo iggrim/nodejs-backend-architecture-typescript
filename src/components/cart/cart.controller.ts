@@ -37,7 +37,7 @@ export class CartController extends BaseController implements ICartController {
   }
 
   async addToCart(req: Request, res: Response, next: NextFunction) {
-    await this.cartService.createCartItem(req.user._id, req.body.id);
+    await this.cartService.addToCart(req.user._id, req.body.id);
 
     res.redirect("/cart-products");
   }
@@ -73,7 +73,9 @@ export class CartController extends BaseController implements ICartController {
     const cart = JSON.parse(JSON.stringify(cartUserItems));
 
     //console.log('---cart ', cart);
-    //  сюда в объект добавить cart  и  price
+    
+    // отвечаем на запрос fetch('/card/remove/' + id, ...) из файла public/app.js 
+    // получатель - .then(res => res.json())
     res.status(200).json(cart);
   }
 }

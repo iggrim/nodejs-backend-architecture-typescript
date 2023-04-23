@@ -16,6 +16,7 @@ export class Cart {
     }]
   }
  
+  // у объекта класса Cart будет два публичных поля - usreId и items
   public get usreId(): Schema.Types.ObjectId {
     return this._userId;
   }

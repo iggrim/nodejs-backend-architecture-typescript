@@ -5,14 +5,7 @@ import { Schema, Types, LeanDocument } from "mongoose";
 
 export interface ICartRepository {
   
-  addToCart: (
-    userId: Schema.Types.ObjectId,
-    productItem: LeanDocument<
-      IProductModel & {
-        _id: Types.ObjectId;
-      }
-    > | null
-  ) => Promise<void>;
+  addToCart: (cartUser: (ICart & { _id: Types.ObjectId})) => Promise<void>;
 
   deleteCart: (userId: Schema.Types.ObjectId) => Promise<void>;
 
@@ -28,8 +21,5 @@ export interface ICartRepository {
     userId: Schema.Types.ObjectId
   ) => Promise<LeanDocument<ICart & { _id: Types.ObjectId }> | null>;
   
-  deleteFromCart: (
-    userId: Schema.Types.ObjectId,
-    productId: string
-  ) => Promise<(ICart & { _id: Types.ObjectId }) | null>;
+  deleteFromCart: (artUser: ICart & { _id: Types.ObjectId}) => Promise<(ICart & { _id: Types.ObjectId }) | null>;
 }

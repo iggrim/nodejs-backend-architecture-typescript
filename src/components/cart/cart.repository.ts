@@ -12,43 +12,8 @@ import "reflect-metadata";
 @injectable()
 export class CartRepository implements ICartRepository {
   // надо вынести логику в CartService-----------------!!!!!!!!!!!!
-  async addToCart(
-    userId: Schema.Types.ObjectId,
-    productItem: LeanDocument<
-      IProductModel & {
-        _id: Types.ObjectId;
-      }
-    > | null
-  ): Promise<void> {
-    const cartUser = await this.getRecord(userId.toString());
-
-    if (!cartUser) {
-      // если еще нет корзины
-      const cartItem = new Cart(userId, 1, productItem?._id);
-      const createCart = new CartModel({
-        userId: cartItem.usreId,
-        items: cartItem.items,
-      });
-      createCart.save(); // сохраняем документ
-    } else {
-      const items = [...cartUser.items]; //  копия cartUser.items
-      const idx = items.findIndex(
-        (item) => item.productId.toString() === productItem?._id.toString()
-      );
-
-      if (idx >= 0) {
-        // увеличиваем count для одного конкретного товара
-        items[idx].count = items[idx].count + 1;
-      } else {
-        
-        items.push({ 
-          count: 1,
-          productId: productItem?._id,
-        });
-      }
-      cartUser.items = items;
-      cartUser.save(); // сохраняем документ
-    }
+  async addToCart(cartUser: (ICart & { _id: Types.ObjectId})) {
+    cartUser.save();
   }
 
   async deleteCart(userId: Schema.Types.ObjectId){
@@ -80,34 +45,8 @@ export class CartRepository implements ICartRepository {
     return cartUser;
   }
 
-  async deleteFromCart(
-    userId: Schema.Types.ObjectId,
-    productId: string
-  ): Promise<(ICart & { _id: Types.ObjectId }) | null> {
-    // const cartUser = await this.getRecord(userId.toString());
-    const cartUser = await CartModel.findOne({ userId: userId.toString() });
-
-    if (!cartUser) {
-      return null;
-    } else {
-      let items = [...cartUser.items]; //  копия cartUser.items
-      const idx = items.findIndex(
-        (item) => item.productId.toString() === productId.toString()
-      );
-
-      //console.log('---items ', items);
-      //console.log('---productId ', productId); // undefined
-
-      if (items[idx].count === 1) {
-        items = items.filter(
-          (item) => item.productId.toString() !== productId.toString()
-        );
-      } else {
-        items[idx].count--;
-      }
-
-      cartUser.items = items; // items- массив
-      return cartUser.save(); // сохраняем документ
-    }
+  async deleteFromCart(cartUser: ICart & { _id: Types.ObjectId}): Promise<(ICart & { _id: Types.ObjectId }) | null> {
+    
+    return cartUser.save(); // сохраняем документ
   }
 }

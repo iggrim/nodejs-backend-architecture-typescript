@@ -73,7 +73,8 @@ if ($cart) {
         method: "delete",
       })
         .then((res) => res.json())
-        .then((cart) => { console.log('---cart  from app.js', cart)
+        .then((cart) => { 
+          console.log('---cart  from app.js', cart)
           if (cart.length) {
             const html = cart
               .map((c) => {
@@ -89,7 +90,14 @@ if ($cart) {
               })
               .join("");
             $cart.querySelector("tbody").innerHTML = html;
-            $cart.querySelector(".price").textContent = toCurrency(cart.price);
+
+            const initialValue = 0;
+            const price = cart.reduce((accumulator, c) => 
+              accumulator + c.productId.price, initialValue)
+              
+              console.log('--price ', price)  
+            
+            $cart.querySelector(".price").textContent = toCurrency(price);
           } else {
             $cart.innerHTML = "<p>Корзина пуста</p>";
           }

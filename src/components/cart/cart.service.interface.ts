@@ -2,18 +2,18 @@ import { Schema, Types, LeanDocument } from "mongoose";
 import { ICart } from "./cart.model.interface";
 
 export interface ICartService {
-  createCartItem: (
+  addToCart: (
     userId: Schema.Types.ObjectId,
     productId: string
   ) => Promise<void>;
   //deleteFromCart: (userId: Schema.Types.ObjectId, productId: string) => Promise<void>;
-  deleteFromCart: (
-    userId: Schema.Types.ObjectId,
-    productId: string
-  ) => Promise<
-    { productId: Schema.Types.ObjectId; count: number }[] | undefined
-  >;
+  // deleteFromCart: (userId: Schema.Types.ObjectId, productId: string) => Promise<{ productId: Schema.Types.ObjectId; count: number }[] | undefined >;
+  deleteFromCart: (userId: Schema.Types.ObjectId, productId: string) => Promise<{
+    productId: Schema.Types.ObjectId;
+    count: number;
+}[] | undefined>;
 
+  
   getReordById: (
     userId: string
   ) => Promise<(ICart & { _id: Types.ObjectId }) | null>;
