@@ -8,11 +8,13 @@ import { OrderService } from './order.service'
 
 import "reflect-metadata";
 
+
 @injectable()
 export class OrderController extends BaseController implements IOrderController {
   constructor(
     @inject(TYPES.ILogger) private loggerService: ILogger,
     @inject(TYPES.OrderService) private orderService: OrderService,
+    
   ) {
     super(loggerService);
     this.bindRoutes([  // bindRoutes из BaseController
@@ -31,11 +33,14 @@ export class OrderController extends BaseController implements IOrderController 
   }
   
   async getOrders(req: Request, res: Response, next: NextFunction){
-    const orders = await this.orderService.getRecords(req.user._id);
+    const ordersArr = await this.orderService.getRecords(req.user._id);
     
+    //console.log('--- getOrders orders ', orders[0].products[0].product);
+    //const spread_orders = ordersArr.map(o => {return {...o}});
+    //console.log('--- getOrders spread_orders ', spread_orders);
     
-    const spread_orders = orders.map(o => {return {...o}});
-    console.log('--- getOrders spread_orders ', spread_orders);
+    const orders = JSON.parse(JSON.stringify(ordersArr));
+    //console.log(orders[0].products[0].product.price)
 
     res.render('orders', { // orders-название страницы orders.hbs
       isOrder: true,

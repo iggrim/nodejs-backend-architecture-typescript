@@ -106,6 +106,7 @@ export class CartService implements ICartService {
   }
 
   mapCartItems(cartUser: LeanDocument<ICart & { _id: Types.ObjectId }> | null) {
+    // документ mongoose преобразуем в объект JS через map
     if (cartUser) {
       const cartUserObjJs = cartUser.items.map((c) => ({
         productId: c.productId,
@@ -132,6 +133,8 @@ export class CartService implements ICartService {
     const cartUser = await this.cartRepository.getByIdObjectJs(userId);
 
     if (cartUser) {
+      // важный момент в mapCartItems документ mongoose преобразуем в объект JS
+      // через map ( можно через JSON.parse(JSON.stringify(...)))
       const products = this.mapCartItems(cartUser);
       //console.log('---products', products);
 

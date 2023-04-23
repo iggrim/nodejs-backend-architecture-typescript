@@ -15,14 +15,14 @@
             <ol>
               {{#each products}}
                 <li>
-                  {{product.title}} (x<strong>{{count}}</strong>)
+                  {{product.title}} (количество: <strong>{{count}}</strong>) цена за еденицу товара: {{product.price}} 
                 </li>
               {{/each}}
             </ol>
 
             <hr>
 
-            <p>Цена: <span class="price">{{price}}</span></p>
+            <p>Общая стоимость: <span class="price">{{price}}</span></p>
           </div>
         </div>
       </div>

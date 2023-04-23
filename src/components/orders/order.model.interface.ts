@@ -11,5 +11,7 @@ export interface IOrderModel extends Document {
   }
 
   date: Date;
+
+  price: Number;
  
 }

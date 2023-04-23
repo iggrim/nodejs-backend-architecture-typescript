@@ -11,7 +11,8 @@ const orderSchema = new Schema<IOrderModel>({
       count: {
         type: Number,
         required: true
-      }
+      },
+      
     }
   ],
   user: {
@@ -22,10 +23,17 @@ const orderSchema = new Schema<IOrderModel>({
       required: true
     }
   },
+
   date: {
     type: Date,
     default: Date.now
+  },
+
+  price:{
+    type: Number,
+    required: true
   }
+
 })
 
 export const OrderModel = model<IOrderModel>('Order', orderSchema)
