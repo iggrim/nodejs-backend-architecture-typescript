@@ -40,9 +40,6 @@ export class OrderService implements IOrderService {
       price: price,      
     }
 
-    //price: itemsObjArrJs[k].reduce((acc: number, cur: any)=>{cur.productId.price}, 0 )
-    //console.log('---user ', user);
-
     // напоминание - после создания ордера, корзина очищается
     await this.orderRepository.addToOrder(orderBlank);
 
