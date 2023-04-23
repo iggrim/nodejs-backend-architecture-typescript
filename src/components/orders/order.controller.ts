@@ -32,12 +32,15 @@ export class OrderController extends BaseController implements IOrderController 
   
   async getOrders(req: Request, res: Response, next: NextFunction){
     const orders = await this.orderService.getRecords(req.user._id);
-    console.log('--- getOrders orders ', orders);
-    // добавить запрос на получение ордера
+    
+    
+    const spread_orders = orders.map(o => {return {...o}});
+    console.log('--- getOrders spread_orders ', spread_orders);
 
     res.render('orders', { // orders-название страницы orders.hbs
       isOrder: true,
-      title: 'Заказы'
+      title: 'Заказы',
+      orders: orders
     })
   }
 }
